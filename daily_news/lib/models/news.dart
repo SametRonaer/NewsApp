@@ -8,10 +8,10 @@ class NewsModel {
   String newsUrl;
 
   NewsModel({
-    this.id,
-    this.title,
-    this.description,
-    this.imageUrl,
-    this.newsUrl,
+    @required this.id,
+    @required this.title,
+    @required this.description,
+    @required this.imageUrl,
+    @required this.newsUrl,
   });
 }

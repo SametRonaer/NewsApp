@@ -1,11 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:daily_news/providers/bbc_news.dart';
+import 'package:daily_news/providers/cnn_news.dart';
+import 'package:daily_news/providers/haberturkNews.dart';
+import 'package:daily_news/providers/ntv_news.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show get;
 import 'package:xml/xml.dart';
 import "dart:core";
 import '../constants/rss_urls.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,14 +30,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: fetchNews,
+        onPressed: apiCheck,
       ),
     );
   }
 
+  Future<void> apiCheck() async {
+    var responseString =
+        await Provider.of<HaberturkNews>(context, listen: false).sendRequest();
+    // print(responseString);
+  }
+
   void fetchNews() async {
-    var reponse = await get(Uri.parse(RssUrls.bbcNews));
-    var decodedResponse = utf8.decode(reponse.bodyBytes);
+    var response = await get(Uri.parse(RssUrls.bbcNews));
+    var decodedResponse = utf8.decode(response.bodyBytes);
     // try {
     //   var channel = RssFeed.parse(decodedResponse);
     //   log(channel.toString());
@@ -74,13 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
       // int startPoint = sElement.indexOf('"');
       // int endPoint = sElement.length;
       // sElement = sElement.replaceRange(startPoint, endPoint, "");
-
-      //  CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN CNN
-      // image
-      // sElement = sElement.replaceFirst("<image>", "");
-      // sElement = sElement.replaceFirst("</image>", "");
-
-      // print("***********************************");
     });
     //print(titles);
   }

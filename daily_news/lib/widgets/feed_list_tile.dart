@@ -29,11 +29,11 @@ class FeedListTile extends StatelessWidget {
     return InkWell(
       splashColor: Colors.blueAccent,
       onTap: () {
-        // try {
-        //   launchThere(newsUrl);
-        // } catch (e) {
-        //   print(e);
-        // }
+        try {
+          launchThere(newsUrl);
+        } catch (e) {
+          print(e);
+        }
         print("Tapped");
       },
       child: ClipRRect(
