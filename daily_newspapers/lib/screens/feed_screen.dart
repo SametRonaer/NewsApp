@@ -38,19 +38,20 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _loadNewsPaperProvider(),
-          builder: (ctx, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : Column(
-                      children: [
-                        Container(
-                            child: HorizontalList(_switchCurrentNewsPaper),
-                            height: 120,
-                            width: double.infinity),
-                        _loadNewsPaper(),
-                      ],
-                    )),
+        future: _loadNewsPaperProvider(),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : Column(
+                    children: [
+                      Container(
+                          child: HorizontalList(_switchCurrentNewsPaper),
+                          height: 120,
+                          width: double.infinity),
+                      _loadNewsPaper(),
+                    ],
+                  ),
+      ),
     );
   }
 
