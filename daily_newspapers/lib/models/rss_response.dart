@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:xml/xml.dart';
 
+import 'news.dart';
+
 abstract class RssResponse extends ChangeNotifier {
   void getMainNews();
   Future<void> sendRequest();

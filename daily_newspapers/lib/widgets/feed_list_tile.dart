@@ -1,6 +1,5 @@
+import '../screens/web_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class FeedListTile extends StatelessWidget {
   final String newsTitle;
@@ -11,34 +10,20 @@ class FeedListTile extends StatelessWidget {
   FeedListTile(
       {this.newsTitle, this.newsDescription, this.newsImageUrl, this.newsUrl});
 
-  void launchThere(String url) async {
-    await canLaunch(url)
-        ? await launch(
-            url,
-            enableJavaScript: true,
-            forceWebView: true,
-            headers: <String, String>{'my_header_key': 'my_header_value'},
-          )
-        : throw 'Could not launch $url';
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.blueAccent,
       onTap: () {
         try {
-          //launchThere(newsUrl);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => LoadWebPage(newsUrl),
+              builder: (context) => WebScreen(newsUrl),
             ),
           );
         } catch (e) {
           print(e);
-          print("ERROR");
         }
-        print("Tapped");
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -61,19 +46,6 @@ class FeedListTile extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class LoadWebPage extends StatelessWidget {
-  static String routeName = "/loadPage";
-  final _url;
-  LoadWebPage(this._url);
-
-  @override
-  Widget build(BuildContext context) {
-    return WebView(
-      initialUrl: _url,
     );
   }
 }

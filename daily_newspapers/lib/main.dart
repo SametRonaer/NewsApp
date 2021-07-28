@@ -1,13 +1,8 @@
-import 'package:daily_newspapers/dummy_web_view.dart';
-import 'package:daily_newspapers/widgets/feed_list_tile.dart';
-
 import 'providers/bbc_news.dart';
 import 'providers/cnn_news.dart';
-import 'providers/haberturkNews.dart';
+import 'providers/haberturk_news.dart';
 import 'providers/ntv_news.dart';
 import 'screens/feed_screen.dart';
-import 'screens/home_screen.dart';
-import 'widgets/horizontal_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +23,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         home: SafeArea(child: FeedScreen()),
-        //home: DummyWebView(),
       ),
     );
   }

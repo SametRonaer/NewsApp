@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import '../providers/bbc_news.dart';
 import '../providers/cnn_news.dart';
-import '../providers/haberturkNews.dart';
+import '../providers/haberturk_news.dart';
 import '../providers/ntv_news.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' show get;

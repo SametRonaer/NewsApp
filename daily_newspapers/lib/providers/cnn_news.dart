@@ -9,7 +9,6 @@ import 'package:xml/xml.dart';
 
 class CnnNews extends RssResponse {
   final List<NewsModel> news = [];
-
   @override
   Future<void> getMainNews() async {
     await sendRequest();

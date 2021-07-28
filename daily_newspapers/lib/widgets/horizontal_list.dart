@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-enum NewsPapers { CnnTurk, Ntv, HaberTurk, BBC }
+enum NewsPapers { CnnNews, NtvNews, HaberturkNews, BBCNews }
 
 class HorizontalList extends StatelessWidget {
   static const cnnLogoUrl =
@@ -12,6 +12,10 @@ class HorizontalList extends StatelessWidget {
       "https://im.haberturk.com/2016/09/14/ver1473850385/1296680_620x410.jpg";
   static const bbcLogoUrl =
       "https://ichef.bbci.co.uk/news/640/cpsprodpb/C32C/production/_98846994_bbcturkce.png";
+
+  final Function _switchNewsPaper;
+
+  HorizontalList(this._switchNewsPaper);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +28,17 @@ class HorizontalList extends StatelessWidget {
           children: [
             SizedBox(width: 20),
             buildNewsPaperCell(
-                logoUrl: cnnLogoUrl, newsPapers: NewsPapers.CnnTurk),
-            SizedBox(width: 20),
-            buildNewsPaperCell(logoUrl: ntvLogoUrl, newsPapers: NewsPapers.Ntv),
+                logoUrl: cnnLogoUrl, newsPapers: NewsPapers.CnnNews),
             SizedBox(width: 20),
             buildNewsPaperCell(
-                logoUrl: haberTurkLogoUrl, newsPapers: NewsPapers.HaberTurk),
+                logoUrl: ntvLogoUrl, newsPapers: NewsPapers.NtvNews),
             SizedBox(width: 20),
-            buildNewsPaperCell(logoUrl: bbcLogoUrl, newsPapers: NewsPapers.BBC),
+            buildNewsPaperCell(
+                logoUrl: haberTurkLogoUrl,
+                newsPapers: NewsPapers.HaberturkNews),
+            SizedBox(width: 20),
+            buildNewsPaperCell(
+                logoUrl: bbcLogoUrl, newsPapers: NewsPapers.BBCNews),
             SizedBox(width: 20),
             Container(
               height: 100,
@@ -54,7 +61,7 @@ class HorizontalList extends StatelessWidget {
         child: InkWell(
           child: Image.network(logoUrl),
           onTap: () {
-            print("Cnn Pressed");
+            _switchNewsPaper(newsPapers);
           },
         ),
       ),
