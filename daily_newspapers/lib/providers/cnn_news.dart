@@ -61,6 +61,7 @@ class CnnNews extends RssResponse {
         .toString()
         .replaceFirst("(<description><![CDATA[", "")
         .replaceFirst("]]></description>)", "")
+        .replaceAll("&quot;", '"')
         .replaceAll("&#39;", "'");
     return descriptionText;
   }

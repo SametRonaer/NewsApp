@@ -71,6 +71,16 @@ class NtvNews extends RssResponse {
         .replaceAll("/>", "");
     descriptionText =
         descriptionText.replaceRange(250, descriptionText.length, "...");
+    if (descriptionText.contains("<a href")) {
+      final endPatternIndex = descriptionText.indexOf("<a href");
+      descriptionText = descriptionText.replaceRange(
+          endPatternIndex, descriptionText.length, "");
+    }
+    if (descriptionText.contains("<img")) {
+      final endPatternIndex = descriptionText.indexOf("<img");
+      descriptionText = descriptionText.replaceRange(
+          endPatternIndex, descriptionText.length, "");
+    }
     return descriptionText;
   }
 

@@ -1,14 +1,12 @@
+import 'package:daily_newspapers/models/news.dart';
+
 import '../screens/web_screen.dart';
 import 'package:flutter/material.dart';
 
 class FeedListTile extends StatelessWidget {
-  final String newsTitle;
-  final String newsDescription;
-  final String newsImageUrl;
-  final String newsUrl;
+  final NewsModel news;
 
-  FeedListTile(
-      {this.newsTitle, this.newsDescription, this.newsImageUrl, this.newsUrl});
+  FeedListTile(this.news);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class FeedListTile extends StatelessWidget {
         try {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => WebScreen(newsUrl),
+              builder: (context) => WebScreen(news),
             ),
           );
         } catch (e) {
@@ -30,16 +28,14 @@ class FeedListTile extends StatelessWidget {
         child: Card(
           elevation: 5,
           child: ListTile(
-            title: Text(newsTitle),
+            title: _loadNewsTitle(news.title),
             subtitle: Row(
               children: [
-                Expanded(child: Text(newsDescription)),
+                Expanded(child: _loadNewsDescription(news.description)),
                 Container(
                   width: 100,
                   height: 100,
-                  child: Image.network(
-                    newsImageUrl,
-                  ),
+                  child: _loadNewsImage(news.imageUrl),
                 )
               ],
             ),
@@ -47,5 +43,32 @@ class FeedListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Image _loadNewsImage(String imageUrl) {
+    try {
+      return Image.network(imageUrl);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Text _loadNewsTitle(String newsTitle) {
+    try {
+      return Text(newsTitle);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Text _loadNewsDescription(String newsDescription) {
+    try {
+      return Text(newsDescription);
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 }

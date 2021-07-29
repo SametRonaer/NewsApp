@@ -1,3 +1,5 @@
+import '../widgets/app_drawer.dart';
+
 import '../models/rss_response.dart';
 import '../providers/bbc_news.dart';
 import '../providers/cnn_news.dart';
@@ -14,7 +16,36 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  var _currentNewsPaper = NewsPapers.BBCNews;
+  var _currentNewsPaper = NewsPapers.CnnNews;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Gündem"),
+        centerTitle: true,
+      ),
+      drawer: AppDrawer(),
+      body: Column(
+        children: [
+          HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
+          FutureBuilder(
+              future: _loadNewsPaperProvider(),
+              builder: (ctx, snapshot) =>
+                  snapshot.connectionState == ConnectionState.waiting
+                      ? Container(
+                          height: 400,
+                          width: 400,
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            backgroundColor: Colors.black,
+                          )))
+                      : _loadNewsPaper()),
+        ],
+      ),
+    );
+  }
+
   void _switchCurrentNewsPaper(NewsPapers newsPaper) {
     setState(() {
       _currentNewsPaper = newsPaper;
@@ -34,39 +65,13 @@ class _FeedScreenState extends State<FeedScreen> {
     return null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: _loadNewsPaperProvider(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
-                : Column(
-                    children: [
-                      Container(
-                          child: HorizontalList(_switchCurrentNewsPaper),
-                          height: 120,
-                          width: double.infinity),
-                      _loadNewsPaper(),
-                    ],
-                  ),
-      ),
-    );
-  }
-
   Widget _loadNewsPaper() {
     if (_currentNewsPaper == NewsPapers.CnnNews) {
       return Consumer<CnnNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {
-              return FeedListTile(
-                newsTitle: newsObject.news[index].title,
-                newsDescription: newsObject.news[index].description,
-                newsImageUrl: newsObject.news[index].imageUrl,
-                newsUrl: newsObject.news[index].newsUrl,
-              );
+              return FeedListTile(newsObject.news[index]);
             },
             itemCount: newsObject.news.length,
           ),
@@ -77,12 +82,7 @@ class _FeedScreenState extends State<FeedScreen> {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {
-              return FeedListTile(
-                newsTitle: newsObject.news[index].title,
-                newsDescription: newsObject.news[index].description,
-                newsImageUrl: newsObject.news[index].imageUrl,
-                newsUrl: newsObject.news[index].newsUrl,
-              );
+              return FeedListTile(newsObject.news[index]);
             },
             itemCount: newsObject.news.length,
           ),
@@ -93,12 +93,7 @@ class _FeedScreenState extends State<FeedScreen> {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {
-              return FeedListTile(
-                newsTitle: newsObject.news[index].title,
-                newsDescription: newsObject.news[index].description,
-                newsImageUrl: newsObject.news[index].imageUrl,
-                newsUrl: newsObject.news[index].newsUrl,
-              );
+              return FeedListTile(newsObject.news[index]);
             },
             itemCount: newsObject.news.length,
           ),
@@ -109,12 +104,7 @@ class _FeedScreenState extends State<FeedScreen> {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {
-              return FeedListTile(
-                newsTitle: newsObject.news[index].title,
-                newsDescription: newsObject.news[index].description,
-                newsImageUrl: newsObject.news[index].imageUrl,
-                newsUrl: newsObject.news[index].newsUrl,
-              );
+              return FeedListTile(newsObject.news[index]);
             },
             itemCount: newsObject.news.length,
           ),

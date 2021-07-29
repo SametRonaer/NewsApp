@@ -1,3 +1,5 @@
+import 'package:daily_newspapers/screens/saved_news_screen.dart';
+
 import 'providers/bbc_news.dart';
 import 'providers/cnn_news.dart';
 import 'providers/haberturk_news.dart';
@@ -22,7 +24,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HaberturkNews())
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.red.shade900,
+          accentColor: Colors.black,
+        ),
         home: SafeArea(child: FeedScreen()),
+        routes: {SavedNewsScreen.routeName: (ctx) => SavedNewsScreen()},
       ),
     );
   }
