@@ -1,22 +1,46 @@
 import 'dart:convert';
-import 'dart:developer';
-import '../constants/rss_urls.dart';
 import '../models/news.dart';
 import '../models/rss_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 
 class NtvNews extends RssResponse {
-  final List<NewsModel> news = [];
+  List<NewsModel> news = [];
+
+  final _mainNewsUrl = "https://www.ntv.com.tr/son-dakika.rss";
+  final _sportNewsUrl = "https://www.ntv.com.tr/spor.rss";
+  final _economyNewsUrl = "https://www.ntv.com.tr/ekonomi.rss";
+  final _worldNewsUrl = "https://www.ntv.com.tr/dunya.rss";
   @override
   Future<void> getMainNews() async {
-    await sendRequest();
+    await sendRequest(_mainNewsUrl);
     notifyListeners();
   }
 
   @override
-  Future<void> sendRequest() async {
-    final url = Uri.parse(RssUrls.ntvNews);
+  Future<List<NewsModel>> getEconomyNews() async {
+    await sendRequest(_economyNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<List<NewsModel>> getWorldNews() async {
+    await sendRequest(_worldNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<List<NewsModel>> getSportNews() async {
+    await sendRequest(_sportNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<void> sendRequest(String newsUrl) async {
+    final url = Uri.parse(newsUrl);
     var response = await http.get(url);
     var decodedResponse = utf8.decode(response.bodyBytes);
     var document = XmlDocument.parse(decodedResponse);
@@ -29,6 +53,7 @@ class NtvNews extends RssResponse {
 
   @override
   void putNews(List<XmlElement> items) {
+    news.clear();
     items.map(
       (item) {
         news.add(NewsModel(
@@ -70,7 +95,7 @@ class NtvNews extends RssResponse {
         .replaceAll("</strong>", "")
         .replaceAll("/>", "");
     descriptionText =
-        descriptionText.replaceRange(250, descriptionText.length, "...");
+        descriptionText.replaceRange(150, descriptionText.length, "...");
     if (descriptionText.contains("<a href")) {
       final endPatternIndex = descriptionText.indexOf("<a href");
       descriptionText = descriptionText.replaceRange(

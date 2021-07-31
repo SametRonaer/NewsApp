@@ -1,22 +1,45 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../constants/rss_urls.dart';
 import '../models/news.dart';
 import '../models/rss_response.dart';
 import 'package:xml/xml.dart';
 
 class HaberturkNews extends RssResponse {
   final List<NewsModel> news = [];
-
+  final _mainNewsUrl = "https://www.haberturk.com/rss/manset.xml";
+  final _sportNewsUrl = "https://www.haberturk.com/rss/spor.xml";
+  final _economyNewsUrl = "https://www.haberturk.com/rss/ekonomi.xml";
+  final _worldNewsUrl = "https://www.ntv.com.tr/dunya.rss";
   @override
   Future<void> getMainNews() async {
-    await sendRequest();
+    await sendRequest(_mainNewsUrl);
     notifyListeners();
   }
 
   @override
-  Future<void> sendRequest() async {
-    final url = Uri.parse(RssUrls.haberturkNews);
+  Future<List<NewsModel>> getEconomyNews() async {
+    await sendRequest(_economyNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<List<NewsModel>> getWorldNews() async {
+    await sendRequest(_worldNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<List<NewsModel>> getSportNews() async {
+    await sendRequest(_sportNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<void> sendRequest(String newsUrl) async {
+    final url = Uri.parse(newsUrl);
     var response = await http.get(url);
     var decodedResponse = utf8.decode(response.bodyBytes);
     var document = XmlDocument.parse(decodedResponse);
@@ -26,6 +49,7 @@ class HaberturkNews extends RssResponse {
 
   @override
   void putNews(List<XmlElement> items) {
+    news.clear();
     items.map(
       (item) {
         news.add(NewsModel(
@@ -47,6 +71,8 @@ class HaberturkNews extends RssResponse {
         .toString()
         .replaceFirst("(<title>", "")
         .replaceFirst("</title>)", "")
+        .replaceAll("<![CDATA[", "")
+        .replaceAll("]]>", "")
         .replaceAll("&#39;", "'");
     return titleText;
   }
@@ -72,7 +98,9 @@ class HaberturkNews extends RssResponse {
     final endPatternIndex = imageUrlText.indexOf("</image>");
     imageUrlText = imageUrlText
         .replaceRange(endPatternIndex, imageUrlText.length, "")
-        .replaceFirst("(<image>", "");
+        .replaceFirst("(<image>", "")
+        .replaceAll("<![CDATA[", "")
+        .replaceAll("]]>", "");
     return imageUrlText;
   }
 
@@ -83,7 +111,9 @@ class HaberturkNews extends RssResponse {
     final newsUrlText = linkTag
         .toString()
         .replaceFirst('(<link>', '')
-        .replaceFirst('</link>)', '');
+        .replaceFirst('</link>)', '')
+        .replaceAll("<![CDATA[", "")
+        .replaceAll("]]>", "");
     return newsUrlText;
   }
 }

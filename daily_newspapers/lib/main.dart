@@ -1,3 +1,4 @@
+import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
 
 import 'providers/bbc_news.dart';
@@ -29,7 +30,10 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.black,
         ),
         home: SafeArea(child: FeedScreen()),
-        routes: {SavedNewsScreen.routeName: (ctx) => SavedNewsScreen()},
+        routes: {SavedNewsScreen.routeName: (ctx) => SavedNewsScreen(),
+                FeedScreen.routeName: (ctx) => FeedScreen(),
+                NewsOfCategoryScreen.routeName: (ctx) => NewsOfCategoryScreen(),
+        },
       ),
     );
   }

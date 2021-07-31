@@ -4,8 +4,11 @@ import 'package:xml/xml.dart';
 import 'news.dart';
 
 abstract class RssResponse extends ChangeNotifier {
-  void getMainNews();
-  Future<void> sendRequest();
+  Future<void> getMainNews();
+  Future getEconomyNews();
+  Future getWorldNews();
+  Future getSportNews();
+  Future sendRequest(String url);
   void putNews(List<XmlElement> items);
   String extractTitle(XmlElement item);
   String extractDescription(XmlElement item);

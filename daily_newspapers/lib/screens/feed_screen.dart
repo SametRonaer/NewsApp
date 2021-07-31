@@ -11,6 +11,7 @@ import '../widgets/feed_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class FeedScreen extends StatefulWidget {
+  static final routeName = "/feedScreen";
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
@@ -37,9 +38,11 @@ class _FeedScreenState extends State<FeedScreen> {
                           height: 400,
                           width: 400,
                           child: Center(
-                              child: CircularProgressIndicator(
-                            backgroundColor: Colors.black,
-                          )))
+                            child: CircularProgressIndicator(
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        )
                       : _loadNewsPaper()),
         ],
       ),

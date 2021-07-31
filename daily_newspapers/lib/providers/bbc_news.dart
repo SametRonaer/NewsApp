@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import '../constants/rss_urls.dart';
 import '../models/news.dart';
 import '../models/rss_response.dart';
 import 'package:xml/xml.dart';
@@ -9,15 +7,38 @@ import 'package:http/http.dart' as http;
 class BBCNews extends RssResponse {
   final List<NewsModel> news = [];
 
+  final _mainNewsUrl = "https://feeds.bbci.co.uk/turkce/rss.xml";
+  final _worldNewsUrl = "https://feeds.bbci.co.uk/turkce/rss.xml";
   @override
   Future<void> getMainNews() async {
-    await sendRequest();
+    await sendRequest(_mainNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<void> getEconomyNews() async {
+    news.clear();
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<List<NewsModel>> getWorldNews() async {
+    await sendRequest(_worldNewsUrl);
+    notifyListeners();
+    return news;
+  }
+
+  @override
+  Future<void> getSportNews() async {
+    news.clear();
     notifyListeners();
   }
 
   @override
-  Future<void> sendRequest() async {
-    final url = Uri.parse(RssUrls.bbcNews);
+  Future<void> sendRequest(String newsUrl) async {
+    final url = Uri.parse(newsUrl);
     var response = await http.get(url);
     var decodedResponse = utf8.decode(response.bodyBytes);
     var document = XmlDocument.parse(decodedResponse);
@@ -27,6 +48,7 @@ class BBCNews extends RssResponse {
 
   @override
   void putNews(List<XmlElement> items) {
+    news.clear();
     items.map(
       (item) {
         news.add(NewsModel(
