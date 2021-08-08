@@ -128,19 +128,9 @@ class _HorizontalListOfNewsPapersState
     extends State<HorizontalListOfNewsPapers> {
   List<Widget> _selectedNewsPapers = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // addNewsPaperCell(NewsPapers.NtvNews, ntvLogoUrl);
-    // addNewsPaperCell(NewsPapers.HaberturkNews, haberTurkLogoUrl);
-    // addNewsPaperCell(NewsPapers.CnnNews, cnnLogoUrl);
-    // addNewsPaperCell(NewsPapers.BBCNews, bbcLogoUrl);
-    // DBHelper.getData(DBHelper.selectedNewsPapers);
-  }
-
   Future<void> _getSelectedNewsPapers() async {
     var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
+    _selectedNewsPapers.clear();
     dataList.forEach((savedNewsPaper) {
       AllNewsPapers.values.forEach((newsPaper) {
         if (savedNewsPaper["title"] == newsPaper.toString()) {
@@ -199,7 +189,7 @@ class _HorizontalListOfNewsPapersState
         _setCurrentNewsPaper(newsPaper);
       },
       onLongPress: () {
-        _showDeleteDialog();
+        _showDeleteDialog(newsPaper);
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 8.0),
@@ -223,13 +213,17 @@ class _HorizontalListOfNewsPapersState
     ));
   }
 
-  void _showDeleteDialog() {
+  void _showDeleteDialog(AllNewsPapers newsPaper) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
               title: Text("Bu gazeteyi silmek istedğinize emin misiniz?"),
               actions: [
-                TextButton(onPressed: _deleteNewsPaper, child: Text("Sil")),
+                TextButton(
+                    onPressed: () {
+                      _deleteNewsPaper(newsPaper);
+                    },
+                    child: Text("Sil")),
                 TextButton(
                     onPressed: () {
                       Navigator.of(ctx).pop();
@@ -239,13 +233,19 @@ class _HorizontalListOfNewsPapersState
             ));
   }
 
-  void _deleteNewsPaper() {}
+  Future<void> _deleteNewsPaper(AllNewsPapers newsPaper) async {
+    await DBHelper.deleteData(
+        DBHelper.selectedNewsPapers, newsPaper.toString());
+    setState(() {
+      _selectedNewsPapers.clear();
+      Navigator.of(context).pop();
+    });
+  }
 }
 
 class NewsPaperCell extends StatelessWidget {
   final AllNewsPapers newsPaper;
   final String logoUrl;
-
 
   NewsPaperCell(this.newsPaper, this.logoUrl);
 
@@ -253,7 +253,7 @@ class NewsPaperCell extends StatelessWidget {
     var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
     dataList.forEach((savedNewsPaper) {
       if (savedNewsPaper["title"] == newsPaper.toString()) {
-        addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);
+        //addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);
       }
     });
   }
@@ -265,7 +265,7 @@ class NewsPaperCell extends StatelessWidget {
         _setCurrentNewsPaper(newsPaper);
       },
       onLongPress: () {
-        _showDeleteDialog();
+        // _showDeleteDialog();
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 8.0),
@@ -290,7 +290,7 @@ class NewsPaperCell extends StatelessWidget {
   }
 
   void _setCurrentNewsPaper(AllNewsPapers newsPaper) {
-    widget.setCurrentNewsPaper(newsPaper);
+    //widget.setCurrentNewsPaper(newsPaper);
   }
 
   void _showDeleteDialog(BuildContext context) {

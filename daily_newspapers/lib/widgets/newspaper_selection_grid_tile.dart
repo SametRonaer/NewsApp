@@ -61,11 +61,5 @@ class _NewspaperSelectionGridTileState
       }
     });
     print(widget.selectedNewsPapers);
-    // await DBHelper.insert(DBHelper.selectedNewsPapers, {
-    //   "title": widget.title,
-    //   "logo": widget.imageUrl,
-    // }).then((value) {
-    //   _addNewsPaper();
-    // });
   }
 }

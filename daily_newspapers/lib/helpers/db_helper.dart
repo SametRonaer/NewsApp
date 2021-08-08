@@ -42,7 +42,15 @@ class DBHelper {
     final db = await DBHelper.createDatabase(table);
     var dataList =
         await db.rawQuery('SELECT * FROM ${DBHelper.selectedNewsPapers}');
-    //print(dataList);
+    print(dataList);
     return dataList;
+  }
+
+  static Future<void> deleteData(String table, String newsPaper) async {
+    await getData(table);
+    final db = await DBHelper.createDatabase(table);
+    db.delete(table, where: "title = ?", whereArgs: [newsPaper]);
+    print(newsPaper);
+    await getData(table);
   }
 }

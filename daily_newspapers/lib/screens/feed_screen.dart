@@ -1,5 +1,11 @@
 import 'package:daily_newspapers/constants/newspapers.dart';
 import 'package:daily_newspapers/helpers/db_helper.dart';
+import 'package:daily_newspapers/providers/birgun_news.dart';
+import 'package:daily_newspapers/providers/cumhuriyet_news.dart';
+import 'package:daily_newspapers/providers/dunya_news.dart';
+import 'package:daily_newspapers/providers/hurriyet_news.dart';
+import 'package:daily_newspapers/providers/milliyet_news.dart';
+import 'package:daily_newspapers/providers/sabah_news.dart';
 
 import '../widgets/app_drawer.dart';
 
@@ -25,44 +31,30 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Gündem"),
-        centerTitle: true,
-      ),
-      drawer: AppDrawer(),
-      body: FutureBuilder(
-        future: _getData(),
-        builder: (ctx, snapshot) {
-          return snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
-              : Column(
-                  children: [
-                    HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
-                    FutureBuilder(
-                        future: _loadNewsPaperProvider(),
-                        builder: (ctx, snapshot) =>
-                            snapshot.connectionState == ConnectionState.waiting
-                                ? Container(
-                                    height: 400,
-                                    width: 400,
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                  )
-                                : _loadNewsPaper()),
-                  ],
-                );
-        },
-      ),
-    );
-  }
-
-  Future<void> _getData() async {
-    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
-    //print(dataList);
+        appBar: AppBar(
+          title: Text("Gündem"),
+          centerTitle: true,
+        ),
+        drawer: AppDrawer(),
+        body: Column(
+          children: [
+            HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
+            FutureBuilder(
+                future: _loadNewsPaperProvider(),
+                builder: (ctx, snapshot) =>
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? Container(
+                            height: 400,
+                            width: 400,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          )
+                        : _loadNewsPaper()),
+          ],
+        ));
   }
 
   void _switchCurrentNewsPaper(AllNewsPapers newsPaper) {
@@ -80,6 +72,18 @@ class _FeedScreenState extends State<FeedScreen> {
       return Provider.of<HaberturkNews>(context, listen: false).getMainNews();
     } else if (_currentNewsPaper == AllNewsPapers.NtvNews) {
       return Provider.of<NtvNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.HurriyetNews) {
+      return Provider.of<HurriyetNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.CumhuriyetNews) {
+      return Provider.of<CumhuriyetNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.BirgunNews) {
+      return Provider.of<BirgunNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.DunyaNews) {
+      return Provider.of<DunyaNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.MilliyetNews) {
+      return Provider.of<MilliyetNews>(context, listen: false).getMainNews();
+    }else if (_currentNewsPaper == AllNewsPapers.SabahNews) {
+      return Provider.of<SabahNews>(context, listen: false).getMainNews();
     }
     return null;
   }
@@ -120,6 +124,73 @@ class _FeedScreenState extends State<FeedScreen> {
       });
     } else if (_currentNewsPaper == AllNewsPapers.NtvNews) {
       return Consumer<NtvNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.HurriyetNews) {
+      return Consumer<HurriyetNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              print(newsObject.news[index]);
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.CumhuriyetNews) {
+      return Consumer<CumhuriyetNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.BirgunNews) {
+      return Consumer<BirgunNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.DunyaNews) {
+      return Consumer<DunyaNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.MilliyetNews) {
+      return Consumer<MilliyetNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.SabahNews) {
+      return Consumer<SabahNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {

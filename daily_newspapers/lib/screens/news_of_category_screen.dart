@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:daily_newspapers/models/news.dart';
 import 'package:daily_newspapers/providers/cnn_news.dart';
 import 'package:daily_newspapers/providers/haberturk_news.dart';
+import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/ntv_news.dart';
+import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/news_grid_tile.dart';
 import 'package:flutter/material.dart';
@@ -73,14 +75,19 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       print(news.length);
       news += await Provider.of<HaberturkNews>(context, listen: false)
           .getSportNews();
-      print(news.length);
-      //news = news.
-      // log(news.toString());
+      news += await Provider.of<HurriyetNews>(context, listen: false)
+          .getSportNews();
+      news +=
+          await Provider.of<SabahNews>(context, listen: false).getSportNews();
     } else if (category == Categories.World) {
       news += await Provider.of<CnnNews>(context, listen: false).getWorldNews();
       news += await Provider.of<NtvNews>(context, listen: false).getWorldNews();
       news += await Provider.of<HaberturkNews>(context, listen: false)
           .getWorldNews();
+      news += await Provider.of<HurriyetNews>(context, listen: false)
+          .getWorldNews();
+      news +=
+          await Provider.of<SabahNews>(context, listen: false).getWorldNews();
     } else if (category == Categories.Economy) {
       news +=
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
@@ -88,14 +95,11 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           await Provider.of<NtvNews>(context, listen: false).getEconomyNews();
       news += await Provider.of<HaberturkNews>(context, listen: false)
           .getWorldNews();
+      news += await Provider.of<HurriyetNews>(context, listen: false)
+          .getEconomyNews();
+      news +=
+          await Provider.of<SabahNews>(context, listen: false).getEconomyNews();
     }
     news.shuffle();
   }
 }
-
-// Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: ListView.builder(
-// itemBuilder: (ctx, i) => NewsGridTile(news[i]),
-// itemCount: news.length,
-// ),

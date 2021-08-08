@@ -14,6 +14,13 @@ class NewspaperSelectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Selection Screen"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.save),
+              onPressed: () {
+                _saveNewsPapers(context);
+              })
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,28 +40,28 @@ class NewspaperSelectionScreen extends StatelessWidget {
               mainAxisSpacing: 10,
             ),
           ),
-          Container(
-            height: 60,
-            width: double.infinity,
-            color: Colors.blue,
-            child: TextButton(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Done",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
-              onPressed: () {
-                _saveNewsPapers(context);
-              },
-            ),
-          ),
+          // Container(
+          //   height: 60,
+          //   width: double.infinity,
+          //   color: Colors.blue,
+          //   child: TextButton(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         SizedBox(
+          //           width: 10,
+          //         ),
+          //         Text(
+          //           "Done",
+          //           style: TextStyle(color: Colors.white, fontSize: 20),
+          //         ),
+          //       ],
+          //     ),
+          //     onPressed: () {
+          //       _saveNewsPapers(context);
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

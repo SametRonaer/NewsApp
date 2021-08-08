@@ -1,3 +1,10 @@
+import 'package:daily_newspapers/dummy_feed_screen.dart';
+import 'package:daily_newspapers/providers/birgun_news.dart';
+import 'package:daily_newspapers/providers/cumhuriyet_news.dart';
+import 'package:daily_newspapers/providers/dunya_news.dart';
+import 'package:daily_newspapers/providers/hurriyet_news.dart';
+import 'package:daily_newspapers/providers/milliyet_news.dart';
+import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/screens/launch_screen.dart';
 import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
@@ -25,7 +32,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CnnNews()),
         ChangeNotifierProvider(create: (_) => NtvNews()),
         ChangeNotifierProvider(create: (_) => BBCNews()),
-        ChangeNotifierProvider(create: (_) => HaberturkNews())
+        ChangeNotifierProvider(create: (_) => HaberturkNews()),
+        ChangeNotifierProvider(create: (_) => HurriyetNews()),
+        ChangeNotifierProvider(create: (_) => CumhuriyetNews()),
+        ChangeNotifierProvider(create: (_) => BirgunNews()),
+        ChangeNotifierProvider(create: (_) => DunyaNews()),
+        ChangeNotifierProvider(create: (_) => MilliyetNews()),
+        ChangeNotifierProvider(create: (_) => SabahNews()),
       ],
       child: MaterialApp(
         themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
@@ -41,6 +54,7 @@ class MyApp extends StatelessWidget {
           cardColor: Colors.grey.shade800,
           backgroundColor: Colors.red.shade800,
         ),
+        //home: DummyFeedScreen(),
         home: SafeArea(child: LaunchScreen()),
         // home: SafeArea(child: NewspaperSelectionScreen()),
         //home: SafeArea(child: FeedScreen()),

@@ -1,4 +1,17 @@
-enum AllNewsPapers { CnnNews, NtvNews, HaberturkNews, BBCNews }
+enum AllNewsPapers {
+  CnnNews,
+  NtvNews,
+  HaberturkNews,
+  BBCNews,
+  HurriyetNews,
+  CumhuriyetNews,
+  BirgunNews,
+  DunyaNews,
+  MilliyetNews,
+  SabahNews,
+  TakvimNews,
+  StarNews,
+}
 
 class NewsPapers {
   static final List<Map<String, String>> allNewsPapersWithUrl = [
@@ -21,6 +34,36 @@ class NewsPapers {
       "title": AllNewsPapers.BBCNews.toString(),
       "imageUrl":
           "https://ichef.bbci.co.uk/news/640/cpsprodpb/C32C/production/_98846994_bbcturkce.png"
+    },
+    {
+      "title": AllNewsPapers.HurriyetNews.toString(),
+      "imageUrl":
+          "https://logowik.com/content/uploads/images/890_hurriyetgazetesi.jpg"
+    },
+    {
+      "title": AllNewsPapers.CumhuriyetNews.toString(),
+      "imageUrl":
+          "https://www.cumhuriyet.com.tr/Archive/2019/6/12/1435511_resource/66.jpg"
+    },
+    {
+      "title": AllNewsPapers.BirgunNews.toString(),
+      "imageUrl":
+          "https://static.birgun.net/resim/haber-detay-resim/2019/12/12/to-our-readers-660744-5.jpg"
+    },
+    {
+      "title": AllNewsPapers.DunyaNews.toString(),
+      "imageUrl":
+          "https://media-exp1.licdn.com/dms/image/C560BAQGKIn3nm52lbw/company-logo_200_200/0/1576073798675?e=2159024400&v=beta&t=5T_CUOK90_P1Xk-2mc4kycgnR7KsS1DUUMq_-4DZHq0"
+    },
+    {
+      "title": AllNewsPapers.MilliyetNews.toString(),
+      "imageUrl":
+          "https://upload.wikimedia.org/wikipedia/tr/archive/9/90/20130126180709%21Milliyet_logosu.png"
+    },
+    {
+      "title": AllNewsPapers.SabahNews.toString(),
+      "imageUrl":
+          "https://cdn.freelogovectors.net/wp-content/uploads/2018/03/sabah-gazetesi-sabah-com-tr-logo.png"
     },
   ];
 }
