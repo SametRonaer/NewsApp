@@ -1,3 +1,6 @@
+import 'package:daily_newspapers/constants/newspapers.dart';
+import 'package:daily_newspapers/helpers/db_helper.dart';
+
 import '../widgets/app_drawer.dart';
 
 import '../models/rss_response.dart';
@@ -17,7 +20,7 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  var _currentNewsPaper = NewsPapers.CnnNews;
+  var _currentNewsPaper = AllNewsPapers.CnnNews;
 
   @override
   Widget build(BuildContext context) {
@@ -27,49 +30,62 @@ class _FeedScreenState extends State<FeedScreen> {
         centerTitle: true,
       ),
       drawer: AppDrawer(),
-      body: Column(
-        children: [
-          HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
-          FutureBuilder(
-              future: _loadNewsPaperProvider(),
-              builder: (ctx, snapshot) =>
-                  snapshot.connectionState == ConnectionState.waiting
-                      ? Container(
-                          height: 400,
-                          width: 400,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        )
-                      : _loadNewsPaper()),
-        ],
+      body: FutureBuilder(
+        future: _getData(),
+        builder: (ctx, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
+                    FutureBuilder(
+                        future: _loadNewsPaperProvider(),
+                        builder: (ctx, snapshot) =>
+                            snapshot.connectionState == ConnectionState.waiting
+                                ? Container(
+                                    height: 400,
+                                    width: 400,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  )
+                                : _loadNewsPaper()),
+                  ],
+                );
+        },
       ),
     );
   }
 
-  void _switchCurrentNewsPaper(NewsPapers newsPaper) {
+  Future<void> _getData() async {
+    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
+    //print(dataList);
+  }
+
+  void _switchCurrentNewsPaper(AllNewsPapers newsPaper) {
     setState(() {
       _currentNewsPaper = newsPaper;
     });
   }
 
   Future _loadNewsPaperProvider() {
-    if (_currentNewsPaper == NewsPapers.CnnNews) {
+    if (_currentNewsPaper == AllNewsPapers.CnnNews) {
       return Provider.of<CnnNews>(context, listen: false).getMainNews();
-    } else if (_currentNewsPaper == NewsPapers.BBCNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.BBCNews) {
       return Provider.of<BBCNews>(context, listen: false).getMainNews();
-    } else if (_currentNewsPaper == NewsPapers.HaberturkNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.HaberturkNews) {
       return Provider.of<HaberturkNews>(context, listen: false).getMainNews();
-    } else if (_currentNewsPaper == NewsPapers.NtvNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.NtvNews) {
       return Provider.of<NtvNews>(context, listen: false).getMainNews();
     }
     return null;
   }
 
   Widget _loadNewsPaper() {
-    if (_currentNewsPaper == NewsPapers.CnnNews) {
+    if (_currentNewsPaper == AllNewsPapers.CnnNews) {
       return Consumer<CnnNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
@@ -80,7 +96,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         );
       });
-    } else if (_currentNewsPaper == NewsPapers.BBCNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.BBCNews) {
       return Consumer<BBCNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
@@ -91,7 +107,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         );
       });
-    } else if (_currentNewsPaper == NewsPapers.HaberturkNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.HaberturkNews) {
       return Consumer<HaberturkNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
@@ -102,7 +118,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         );
       });
-    } else if (_currentNewsPaper == NewsPapers.NtvNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.NtvNews) {
       return Consumer<NtvNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(

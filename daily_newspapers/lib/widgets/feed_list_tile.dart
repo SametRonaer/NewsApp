@@ -28,10 +28,11 @@ class FeedListTile extends StatelessWidget {
         child: Card(
           elevation: 5,
           child: ListTile(
-            title: _loadNewsTitle(news.title),
+            title: _loadNewsTitle(context, news.title),
             subtitle: Row(
               children: [
-                Expanded(child: _loadNewsDescription(news.description)),
+                Expanded(
+                    child: _loadNewsDescription(context, news.description)),
                 Container(
                   width: 100,
                   height: 100,
@@ -54,18 +55,24 @@ class FeedListTile extends StatelessWidget {
     return null;
   }
 
-  Text _loadNewsTitle(String newsTitle) {
+  Text _loadNewsTitle(BuildContext context, String newsTitle) {
     try {
-      return Text(newsTitle);
+      return Text(
+        newsTitle,
+        style: TextStyle(color: Theme.of(context).accentColor),
+      );
     } catch (e) {
       print(e);
     }
     return null;
   }
 
-  Text _loadNewsDescription(String newsDescription) {
+  Text _loadNewsDescription(BuildContext context, String newsDescription) {
     try {
-      return Text(newsDescription);
+      return Text(
+        newsDescription,
+        style: TextStyle(color: Theme.of(context).accentColor),
+      );
     } catch (e) {
       print(e);
     }

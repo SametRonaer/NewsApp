@@ -59,7 +59,7 @@ class NewsGridTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Container(
           height: 270,
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           child: InkWell(
             onTap: () {
               try {
@@ -85,14 +85,22 @@ class NewsGridTile extends StatelessWidget {
                 news.title,
                 style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
+                    color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               Expanded(
-                child: Text(
-                  news.description,
-                  overflow: TextOverflow.fade,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    news.description,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).accentColor,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
                 ),
               ),
             ]),

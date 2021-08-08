@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 270,
-      child: Drawer(
+    return Drawer(
+      child: Container(
+        color: Theme.of(context).cardColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
