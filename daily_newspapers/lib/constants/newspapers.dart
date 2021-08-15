@@ -11,6 +11,7 @@ enum AllNewsPapers {
   SabahNews,
   TakvimNews,
   StarNews,
+  T24News,
 }
 
 class NewsPapers {
@@ -64,6 +65,18 @@ class NewsPapers {
       "title": AllNewsPapers.SabahNews.toString(),
       "imageUrl":
           "https://cdn.freelogovectors.net/wp-content/uploads/2018/03/sabah-gazetesi-sabah-com-tr-logo.png"
+    },
+    {
+      "title": AllNewsPapers.TakvimNews.toString(),
+      "imageUrl": "https://itkv.tmgrup.com.tr/2020/07/15/1594845869785.png"
+    },
+    {
+      "title": AllNewsPapers.StarNews.toString(),
+      "imageUrl": "https://www.star.com.tr/_imgs/starkarelogo.jpg"
+    },
+    {
+      "title": AllNewsPapers.T24News.toString(),
+      "imageUrl": "https://t24.com.tr/share/twitter.jpg"
     },
   ];
 }

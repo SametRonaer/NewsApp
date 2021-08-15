@@ -6,6 +6,8 @@ import 'package:daily_newspapers/providers/haberturk_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/ntv_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
+import 'package:daily_newspapers/providers/star_news.dart';
+import 'package:daily_newspapers/providers/takvim_news.dart';
 import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/news_grid_tile.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +81,10 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           .getSportNews();
       news +=
           await Provider.of<SabahNews>(context, listen: false).getSportNews();
+      news +=
+          await Provider.of<TakvimNews>(context, listen: false).getSportNews();
+      news +=
+          await Provider.of<StarNews>(context, listen: false).getSportNews();
     } else if (category == Categories.World) {
       news += await Provider.of<CnnNews>(context, listen: false).getWorldNews();
       news += await Provider.of<NtvNews>(context, listen: false).getWorldNews();
@@ -88,6 +94,8 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           .getWorldNews();
       news +=
           await Provider.of<SabahNews>(context, listen: false).getWorldNews();
+      news +=
+          await Provider.of<StarNews>(context, listen: false).getWorldNews();
     } else if (category == Categories.Economy) {
       news +=
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
@@ -99,6 +107,10 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           .getEconomyNews();
       news +=
           await Provider.of<SabahNews>(context, listen: false).getEconomyNews();
+      news += await Provider.of<TakvimNews>(context, listen: false)
+          .getEconomyNews();
+      news +=
+          await Provider.of<StarNews>(context, listen: false).getEconomyNews();
     }
     news.shuffle();
   }

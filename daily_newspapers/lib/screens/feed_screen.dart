@@ -6,6 +6,9 @@ import 'package:daily_newspapers/providers/dunya_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/milliyet_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
+import 'package:daily_newspapers/providers/star_news.dart';
+import 'package:daily_newspapers/providers/t24_news.dart';
+import 'package:daily_newspapers/providers/takvim_news.dart';
 
 import '../widgets/app_drawer.dart';
 
@@ -82,8 +85,14 @@ class _FeedScreenState extends State<FeedScreen> {
       return Provider.of<DunyaNews>(context, listen: false).getMainNews();
     } else if (_currentNewsPaper == AllNewsPapers.MilliyetNews) {
       return Provider.of<MilliyetNews>(context, listen: false).getMainNews();
-    }else if (_currentNewsPaper == AllNewsPapers.SabahNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.SabahNews) {
       return Provider.of<SabahNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.TakvimNews) {
+      return Provider.of<TakvimNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.StarNews) {
+      return Provider.of<StarNews>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.T24News) {
+      return Provider.of<T24News>(context, listen: false).getMainNews();
     }
     return null;
   }
@@ -191,6 +200,39 @@ class _FeedScreenState extends State<FeedScreen> {
       });
     } else if (_currentNewsPaper == AllNewsPapers.SabahNews) {
       return Consumer<SabahNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.TakvimNews) {
+      return Consumer<TakvimNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.StarNews) {
+      return Consumer<StarNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    } else if (_currentNewsPaper == AllNewsPapers.T24News) {
+      return Consumer<T24News>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {

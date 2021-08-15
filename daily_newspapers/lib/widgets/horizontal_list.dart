@@ -26,7 +26,7 @@
 // class _HorizontalListOfNewsPapersState
 //     extends State<HorizontalListOfNewsPapers> {
 //   NewsPapers _selectedNewsPaper = NewsPapers.CnnNews;
-//   Future _selectedNewsPapers;
+//   Future _selectedNewsPapersTableName;
 //   List _dummyList = [
 //     NewsPapers.CnnNews,
 //     NewsPapers.NtvNews,
@@ -38,8 +38,8 @@
 //   Widget build(BuildContext context) {
 //     return Center(
 //       child: FutureBuilder(
-//           future: _selectedNewsPapers =
-//               DBHelper.getData(DBHelper.selectedNewsPapers),
+//           future: _selectedNewsPapersTableName =
+//               DBHelper.getData(DBHelper.selectedNewsPapersTableName),
 //           builder: (ctx, snapshot) =>
 //               snapshot.connectionState == ConnectionState.waiting
 //                   ? CircularProgressIndicator()
@@ -126,11 +126,11 @@ class HorizontalListOfNewsPapers extends StatefulWidget {
 
 class _HorizontalListOfNewsPapersState
     extends State<HorizontalListOfNewsPapers> {
-  List<Widget> _selectedNewsPapers = [];
+  List<Widget> _selectedNewsPapersTableName = [];
 
-  Future<void> _getSelectedNewsPapers() async {
-    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
-    _selectedNewsPapers.clear();
+  Future<void> _getselectedNewsPapersTableName() async {
+    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
+    _selectedNewsPapersTableName.clear();
     dataList.forEach((savedNewsPaper) {
       AllNewsPapers.values.forEach((newsPaper) {
         if (savedNewsPaper["title"] == newsPaper.toString()) {
@@ -143,7 +143,7 @@ class _HorizontalListOfNewsPapersState
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getSelectedNewsPapers(),
+        future: _getselectedNewsPapersTableName(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(child: CircularProgressIndicator())
@@ -159,12 +159,16 @@ class _HorizontalListOfNewsPapersState
                       InkWell(
                         child: CircleAvatar(
                           radius: 40,
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 30,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: CircleAvatar(
+                            radius: 38,
+                            child: Icon(
+                              Icons.add,
+                              color: Theme.of(context).primaryColor,
+                              size: 30,
+                            ),
+                            backgroundColor: Colors.white,
                           ),
-                          backgroundColor: Colors.green.shade600,
                         ),
                         onTap: () {
                           Navigator.of(context)
@@ -172,7 +176,7 @@ class _HorizontalListOfNewsPapersState
                         },
                       ),
                       SizedBox(width: 10),
-                      Row(children: _selectedNewsPapers),
+                      Row(children: _selectedNewsPapersTableName),
                     ],
                   ),
                 ),
@@ -184,7 +188,7 @@ class _HorizontalListOfNewsPapersState
   }
 
   void addNewsPaperCell(AllNewsPapers newsPaper, String logoUrl) {
-    _selectedNewsPapers.add(InkWell(
+    _selectedNewsPapersTableName.add(InkWell(
       onTap: () {
         _setCurrentNewsPaper(newsPaper);
       },
@@ -223,21 +227,22 @@ class _HorizontalListOfNewsPapersState
                     onPressed: () {
                       _deleteNewsPaper(newsPaper);
                     },
-                    child: Text("Sil")),
+                    child: Text("Sil", style: TextStyle(color: Colors.black))),
                 TextButton(
                     onPressed: () {
                       Navigator.of(ctx).pop();
                     },
-                    child: Text("İptal")),
+                    child:
+                        Text("İptal", style: TextStyle(color: Colors.black))),
               ],
             ));
   }
 
   Future<void> _deleteNewsPaper(AllNewsPapers newsPaper) async {
     await DBHelper.deleteData(
-        DBHelper.selectedNewsPapers, newsPaper.toString());
+        DBHelper.selectedNewsPapersTableName, newsPaper.toString());
     setState(() {
-      _selectedNewsPapers.clear();
+      _selectedNewsPapersTableName.clear();
       Navigator.of(context).pop();
     });
   }
@@ -249,8 +254,8 @@ class NewsPaperCell extends StatelessWidget {
 
   NewsPaperCell(this.newsPaper, this.logoUrl);
 
-  Future<void> _getSelectedNewsPapers() async {
-    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapers);
+  Future<void> _getselectedNewsPapersTableName() async {
+    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
     dataList.forEach((savedNewsPaper) {
       if (savedNewsPaper["title"] == newsPaper.toString()) {
         //addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);

@@ -8,12 +8,12 @@ class NewspaperSelectionGridTile extends StatefulWidget {
       _NewspaperSelectionGridTileState();
   final String imageUrl;
   final String title;
-  final List selectedNewsPapers;
+  final List selectedNewsPapersTableName;
 
   NewspaperSelectionGridTile({
     @required this.title,
     @required this.imageUrl,
-    @required this.selectedNewsPapers,
+    @required this.selectedNewsPapersTableName,
   });
 }
 
@@ -49,17 +49,17 @@ class _NewspaperSelectionGridTileState
   void _selectNewspaper() {
     setState(() {
       if (!_isSelected) {
-        widget.selectedNewsPapers.add({
+        widget.selectedNewsPapersTableName.add({
           "title": widget.title,
           "imageUrl": widget.imageUrl,
         });
         _isSelected = !_isSelected;
       } else {
-        widget.selectedNewsPapers
+        widget.selectedNewsPapersTableName
             .removeWhere((element) => element["title"] == widget.title);
         _isSelected = !_isSelected;
       }
     });
-    print(widget.selectedNewsPapers);
+    print(widget.selectedNewsPapersTableName);
   }
 }

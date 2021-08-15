@@ -2,25 +2,22 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
 class DBHelper {
-  static final newsTableName = "user_favourite_news";
-  static final selectedNewsPapers = "selected_newspapers";
-
-  // static final _selectedNewsPapersTableStructure =  "CREATE TABLE $tableName(id TEXT PRIMARY KEY, title TEXT, description TEXT, image TEXT, link TEXT)");
+  static final savedNewsTableName = "user_favourite_news";
+  static final selectedNewsPapersTableName = "selected_newspapers";
 
   static Future<sql.Database> createDatabase(String tableName) async {
     final dbPath = await sql.getDatabasesPath();
-    String tableStructure;
-    if (tableName == newsTableName) {
-      tableStructure =
-          "CREATE TABLE $tableName(id TEXT PRIMARY KEY, title TEXT, description TEXT, image TEXT, link TEXT)";
-    } else if (tableName == selectedNewsPapers) {
-      tableStructure =
-          "CREATE TABLE $tableName(title TEXT , imageUrl TEXT PRIMARY KEY)";
-    }
-    return sql.openDatabase(
+
+    final selectedNewsPapersTableNameTable =
+        "CREATE TABLE $selectedNewsPapersTableName(title TEXT , imageUrl TEXT PRIMARY KEY)";
+    final savedNewsPapersTable =
+        "CREATE TABLE $savedNewsTableName(id TEXT PRIMARY KEY, title TEXT, description TEXT, image TEXT, link TEXT)";
+    return await sql.openDatabase(
       path.join(dbPath, "news.db"),
-      onCreate: (db, version) {
-        return db.execute(tableStructure);
+      onCreate: (db, version) async {
+        await db.execute(selectedNewsPapersTableNameTable);
+        await db.execute(savedNewsPapersTable);
+        return;
       },
       version: 1,
     );
@@ -40,10 +37,16 @@ class DBHelper {
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.createDatabase(table);
-    var dataList =
-        await db.rawQuery('SELECT * FROM ${DBHelper.selectedNewsPapers}');
-    print(dataList);
-    return dataList;
+    if (table == DBHelper.selectedNewsPapersTableName) {
+      var dataList = await db
+          .rawQuery('SELECT * FROM ${DBHelper.selectedNewsPapersTableName}');
+      return dataList;
+    } else if (table == DBHelper.savedNewsTableName) {
+      var dataList =
+          await db.rawQuery('SELECT * FROM ${DBHelper.savedNewsTableName}');
+      return dataList;
+    }
+    return null;
   }
 
   static Future<void> deleteData(String table, String newsPaper) async {
