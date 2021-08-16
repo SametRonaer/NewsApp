@@ -59,7 +59,8 @@ class FeedListTile extends StatelessWidget {
     try {
       return Text(
         newsTitle,
-        style: TextStyle(color: Theme.of(context).accentColor),
+        style: TextStyle(
+            color: Theme.of(context).accentColor, fontWeight: FontWeight.w600),
       );
     } catch (e) {
       print(e);

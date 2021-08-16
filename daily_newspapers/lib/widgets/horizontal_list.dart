@@ -151,29 +151,33 @@ class _HorizontalListOfNewsPapersState
                 width: double.infinity,
                 height: 130,
                 color: Theme.of(context).cardColor,
+                //color: Theme.of(context).cardColor,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     children: [
-                      InkWell(
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Theme.of(context).primaryColor,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0),
+                        child: InkWell(
                           child: CircleAvatar(
-                            radius: 38,
-                            child: Icon(
-                              Icons.add,
-                              color: Theme.of(context).primaryColor,
-                              size: 30,
+                            radius: 40,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: CircleAvatar(
+                              radius: 38,
+                              child: Icon(
+                                Icons.add,
+                                color: Theme.of(context).primaryColor,
+                                size: 30,
+                              ),
+                              backgroundColor: Colors.white,
                             ),
-                            backgroundColor: Colors.white,
                           ),
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(NewspaperSelectionScreen.routeName);
+                          },
                         ),
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(NewspaperSelectionScreen.routeName);
-                        },
                       ),
                       SizedBox(width: 10),
                       Row(children: _selectedNewsPapersTableName),
@@ -197,21 +201,33 @@ class _HorizontalListOfNewsPapersState
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 8.0),
-        child: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: Colors.black38, width: 2),
-          ),
-          //color: Colors.green,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.network(
-              logoUrl,
-              fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 80,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(color: Colors.black38, width: 2),
+              ),
+              //color: Colors.green,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(
+                  logoUrl,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 5,
+              ),
+            ),
+          ],
         ),
       ),
     ));

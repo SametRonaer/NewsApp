@@ -49,11 +49,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
         theme: ThemeData(
-          primaryColor: Colors.red.shade900,
-          accentColor: Colors.black,
-          backgroundColor: Colors.white,
-          cardColor: Colors.white,
-        ),
+            primaryColor: Colors.red.shade900,
+            accentColor: Colors.black,
+            backgroundColor: Colors.white,
+            cardColor: Colors.white,
+            fontFamily: "Atkinson_Hyperlegible"),
         darkTheme: ThemeData(
           primaryColor: Colors.red.shade900,
           accentColor: Colors.white,

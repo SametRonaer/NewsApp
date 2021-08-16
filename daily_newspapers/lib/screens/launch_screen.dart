@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class LaunchScreen extends StatelessWidget {
   bool _selectedNewsPapersEmpty = true;
   String nextRoute;
+  GlobalKey launchKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +16,16 @@ class LaunchScreen extends StatelessWidget {
     checkNewsPapers();
     _waitUntilTheAnimation(context);
     return Scaffold(
+      key: launchKey,
       backgroundColor: Colors.black,
-      body: Image.asset("assets/images/ezgif.gif", gaplessPlayback: false),
+      body: Container(
+        width: double.infinity,
+        child: Image.asset(
+          "assets/images/ezgif.gif",
+          gaplessPlayback: false,
+          fit: BoxFit.fitWidth,
+        ),
+      ),
     );
   }
 
