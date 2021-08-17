@@ -13,8 +13,9 @@ class LaunchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print("Selection screen");
-    checkNewsPapers();
     _waitUntilTheAnimation(context);
+    checkNewsPapers();
+    DBHelper.getFirstNewsPaper();
     return Scaffold(
       key: launchKey,
       backgroundColor: Colors.black,

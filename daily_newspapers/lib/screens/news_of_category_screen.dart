@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:daily_newspapers/models/news.dart';
 import 'package:daily_newspapers/providers/cnn_news.dart';
 import 'package:daily_newspapers/providers/haberturk_news.dart';
@@ -36,36 +34,30 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
     category = ModalRoute.of(context).settings.arguments as Categories;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text(
-            category.toString(),
-            textAlign: TextAlign.center,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 100.0),
+          child: Text(
+            _getTitleOfAppBar(),
             style: TextStyle(
-              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: Colors.white,
             ),
           ),
         ),
-        drawer: AppDrawer(),
-        backgroundColor: Colors.blueGrey,
-        body: FutureBuilder(
-          future: _loadNews(),
-          builder: (ctx, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : NewsGridTile(news),
-        )
-        // body: GridView.builder(
-        //   itemCount: news.length,
-        //   itemBuilder: (ctx, i) => NewsGridTile(news[i]),
-        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 2,
-        //     childAspectRatio: 3 / 3,
-        //     crossAxisSpacing: 10,
-        //     mainAxisSpacing: 10,
-        //   ),
-        // ),
-        );
+      ),
+      drawer: AppDrawer(),
+      backgroundColor: Colors.blueGrey,
+      body: FutureBuilder(
+        future: _loadNews(),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : NewsGridTile(news),
+      ),
+    );
   }
 
   Future<void> _loadNews() async {
@@ -113,5 +105,16 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           await Provider.of<StarNews>(context, listen: false).getEconomyNews();
     }
     news.shuffle();
+  }
+
+  String _getTitleOfAppBar() {
+    if (category == Categories.Economy) {
+      return "Ekonomi";
+    } else if (category == Categories.World) {
+      return "Dünya";
+    } else if (category == Categories.Sport) {
+      return "Spor";
+    }
+    return null;
   }
 }

@@ -11,8 +11,6 @@ import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
 
 import '../widgets/app_drawer.dart';
-
-import '../models/rss_response.dart';
 import '../providers/bbc_news.dart';
 import '../providers/cnn_news.dart';
 import '../providers/haberturk_news.dart';
@@ -29,7 +27,14 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  var _currentNewsPaper = AllNewsPapers.CnnNews;
+  AllNewsPapers _currentNewsPaper;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentNewsPaper = DBHelper.firstNewsPaper;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,8 @@ class _FeedScreenState extends State<FeedScreen> {
         drawer: AppDrawer(),
         body: Column(
           children: [
-            HorizontalListOfNewsPapers(_switchCurrentNewsPaper),
+            HorizontalListOfNewsPapers(
+                _switchCurrentNewsPaper, _currentNewsPaper),
             FutureBuilder(
                 future: _loadNewsPaperProvider(),
                 builder: (ctx, snapshot) =>

@@ -43,6 +43,7 @@ class NewspaperSelectionScreen extends StatelessWidget {
   Future<void> _saveNewsPapers(BuildContext context) async {
     Future.forEach(_selectedNewsPapersTableName, (element) async {
       await DBHelper.insert(DBHelper.selectedNewsPapersTableName, element);
+      await DBHelper.getFirstNewsPaper();
     });
     Navigator.of(context).pushNamed(FeedScreen.routeName);
   }

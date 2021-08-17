@@ -1,9 +1,11 @@
+import 'package:daily_newspapers/constants/newspapers.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
 class DBHelper {
   static final savedNewsTableName = "user_favourite_news";
   static final selectedNewsPapersTableName = "selected_newspapers";
+  static AllNewsPapers firstNewsPaper;
 
   static Future<sql.Database> createDatabase(String tableName) async {
     final dbPath = await sql.getDatabasesPath();
@@ -49,11 +51,22 @@ class DBHelper {
     return null;
   }
 
+  static Future<AllNewsPapers> getFirstNewsPaper() async {
+    final newsPapersList = await getData(DBHelper.selectedNewsPapersTableName);
+    if (newsPapersList.isNotEmpty) {
+      final firstNewsPaperTitle = newsPapersList[0]["title"];
+      print(firstNewsPaperTitle);
+      AllNewsPapers.values.forEach((element) {
+        if (element.toString() == firstNewsPaperTitle) {
+          firstNewsPaper = element;
+        }
+      });
+    }
+    return null;
+  }
+
   static Future<void> deleteData(String table, String newsPaper) async {
-    await getData(table);
     final db = await DBHelper.createDatabase(table);
     db.delete(table, where: "title = ?", whereArgs: [newsPaper]);
-    print(newsPaper);
-    await getData(table);
   }
 }

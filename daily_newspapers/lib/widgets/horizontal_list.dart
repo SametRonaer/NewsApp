@@ -116,8 +116,9 @@ import 'package:flutter/material.dart';
 
 class HorizontalListOfNewsPapers extends StatefulWidget {
   final Function setCurrentNewsPaper;
+  AllNewsPapers _currentNewsPaper;
 
-  HorizontalListOfNewsPapers(this.setCurrentNewsPaper);
+  HorizontalListOfNewsPapers(this.setCurrentNewsPaper, this._currentNewsPaper);
 
   @override
   _HorizontalListOfNewsPapersState createState() =>
@@ -128,7 +129,7 @@ class _HorizontalListOfNewsPapersState
     extends State<HorizontalListOfNewsPapers> {
   List<Widget> _selectedNewsPapersTableName = [];
 
-  Future<void> _getselectedNewsPapersTableName() async {
+  Future<void> _getSelectedNewsPapers() async {
     var dataList = await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
     _selectedNewsPapersTableName.clear();
     dataList.forEach((savedNewsPaper) {
@@ -143,7 +144,7 @@ class _HorizontalListOfNewsPapersState
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getselectedNewsPapersTableName(),
+        future: _getSelectedNewsPapers(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(child: CircularProgressIndicator())
@@ -195,6 +196,9 @@ class _HorizontalListOfNewsPapersState
     _selectedNewsPapersTableName.add(InkWell(
       onTap: () {
         _setCurrentNewsPaper(newsPaper);
+        setState(() {
+          widget._currentNewsPaper = newsPaper;
+        });
       },
       onLongPress: () {
         _showDeleteDialog(newsPaper);
@@ -220,13 +224,14 @@ class _HorizontalListOfNewsPapersState
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.red,
-                radius: 5,
+            if (widget._currentNewsPaper == newsPaper)
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.red,
+                  radius: 5,
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -257,78 +262,11 @@ class _HorizontalListOfNewsPapersState
   Future<void> _deleteNewsPaper(AllNewsPapers newsPaper) async {
     await DBHelper.deleteData(
         DBHelper.selectedNewsPapersTableName, newsPaper.toString());
+    await DBHelper.getFirstNewsPaper();
     setState(() {
       _selectedNewsPapersTableName.clear();
+      _setCurrentNewsPaper(DBHelper.firstNewsPaper);
       Navigator.of(context).pop();
     });
   }
-}
-
-class NewsPaperCell extends StatelessWidget {
-  final AllNewsPapers newsPaper;
-  final String logoUrl;
-
-  NewsPaperCell(this.newsPaper, this.logoUrl);
-
-  Future<void> _getselectedNewsPapersTableName() async {
-    var dataList = await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
-    dataList.forEach((savedNewsPaper) {
-      if (savedNewsPaper["title"] == newsPaper.toString()) {
-        //addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        _setCurrentNewsPaper(newsPaper);
-      },
-      onLongPress: () {
-        // _showDeleteDialog();
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: Colors.black38, width: 2),
-          ),
-          //color: Colors.green,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.network(
-              logoUrl,
-              fit: BoxFit.scaleDown,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _setCurrentNewsPaper(AllNewsPapers newsPaper) {
-    //widget.setCurrentNewsPaper(newsPaper);
-  }
-
-  void _showDeleteDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text("Bu gazeteyi silmek istedğinize emin misiniz?"),
-              actions: [
-                TextButton(onPressed: _deleteNewsPaper, child: Text("Sil")),
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text("İptal")),
-              ],
-            ));
-  }
-
-  void _deleteNewsPaper() {}
 }
