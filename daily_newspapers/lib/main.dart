@@ -13,6 +13,7 @@ import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
 
+import 'constants/theme_mode.dart';
 import 'providers/bbc_news.dart';
 import 'providers/cnn_news.dart';
 import 'providers/haberturk_news.dart';
@@ -26,8 +27,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  final bool isDark = false;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -45,33 +44,37 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TakvimNews()),
         ChangeNotifierProvider(create: (_) => StarNews()),
         ChangeNotifierProvider(create: (_) => T24News()),
+        ChangeNotifierProvider(create: (_) => ThemesOfApp()),
       ],
-      child: MaterialApp(
-        themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-        theme: ThemeData(
-            primaryColor: Colors.red.shade900,
-            accentColor: Colors.black,
-            backgroundColor: Colors.white,
-            cardColor: Colors.white,
-            fontFamily: "Atkinson_Hyperlegible"),
-        darkTheme: ThemeData(
-          primaryColor: Colors.red.shade900,
-          accentColor: Colors.white,
-          cardColor: Colors.grey.shade800,
-          backgroundColor: Colors.red.shade800,
-        ),
-        //home: DummyFeedScreen(),
-        home: SafeArea(child: LaunchScreen()),
-        // home: SafeArea(child: NewspaperSelectionScreen()),
-        //home: SafeArea(child: FeedScreen()),
-        routes: {
-          SavedNewsScreen.routeName: (ctx) => SavedNewsScreen(),
-          FeedScreen.routeName: (ctx) => FeedScreen(),
-          NewsOfCategoryScreen.routeName: (ctx) => NewsOfCategoryScreen(),
-          NewspaperSelectionScreen.routeName: (ctx) =>
-              NewspaperSelectionScreen(),
-        },
-      ),
+      child: Consumer<ThemesOfApp>(builder: (context, themeProvider, child) {
+        return MaterialApp(
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+              primaryColor: Colors.red.shade900,
+              accentColor: Colors.black,
+              backgroundColor: Colors.white,
+              cardColor: Colors.white,
+              buttonColor: Colors.red.shade900,
+              fontFamily: "Atkinson_Hyperlegible"),
+          darkTheme: ThemeData(
+              primaryColor: Colors.red.shade900,
+              accentColor: Colors.white,
+              cardColor: Colors.grey.shade800,
+              backgroundColor: Colors.red.shade800,
+              buttonColor: Colors.blueGrey),
+          //home: DummyFeedScreen(),
+          home: SafeArea(child: LaunchScreen()),
+          // home: SafeArea(child: NewspaperSelectionScreen()),
+          //home: SafeArea(child: FeedScreen()),
+          routes: {
+            SavedNewsScreen.routeName: (ctx) => SavedNewsScreen(),
+            FeedScreen.routeName: (ctx) => FeedScreen(),
+            NewsOfCategoryScreen.routeName: (ctx) => NewsOfCategoryScreen(),
+            NewspaperSelectionScreen.routeName: (ctx) =>
+                NewspaperSelectionScreen(),
+          },
+        );
+      }),
     );
   }
 }

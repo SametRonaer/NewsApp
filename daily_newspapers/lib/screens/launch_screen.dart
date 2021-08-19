@@ -12,7 +12,6 @@ class LaunchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print("Selection screen");
     _waitUntilTheAnimation(context);
     checkNewsPapers();
     DBHelper.getFirstNewsPaper();

@@ -13,7 +13,7 @@ class NewspaperSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selection Screen"),
+        title: Center(child: Text("Selection Screen")),
         actions: [
           IconButton(
               icon: Icon(Icons.save),
@@ -41,7 +41,7 @@ class NewspaperSelectionScreen extends StatelessWidget {
   }
 
   Future<void> _saveNewsPapers(BuildContext context) async {
-    Future.forEach(_selectedNewsPapersTableName, (element) async {
+    await Future.forEach(_selectedNewsPapersTableName, (element) async {
       await DBHelper.insert(DBHelper.selectedNewsPapersTableName, element);
       await DBHelper.getFirstNewsPaper();
     });

@@ -20,7 +20,7 @@ class _WebScreenState extends State<WebScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Haber"),
+          title: Center(child: Text("Haber")),
           actions: [
             IconButton(icon: Icon(Icons.share), onPressed: _shareNews),
             IconButton(

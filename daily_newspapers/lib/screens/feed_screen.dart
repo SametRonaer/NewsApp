@@ -39,30 +39,36 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).cardColor.withOpacity(0.8),
         appBar: AppBar(
           title: Text("Gündem"),
           centerTitle: true,
         ),
         drawer: AppDrawer(),
-        body: Column(
-          children: [
-            HorizontalListOfNewsPapers(
-                _switchCurrentNewsPaper, _currentNewsPaper),
-            FutureBuilder(
-                future: _loadNewsPaperProvider(),
-                builder: (ctx, snapshot) =>
-                    snapshot.connectionState == ConnectionState.waiting
-                        ? Container(
-                            height: 400,
-                            width: 400,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          )
-                        : _loadNewsPaper()),
-          ],
+        body: Container(
+          child: Column(
+            children: [
+              HorizontalListOfNewsPapers(
+                  _switchCurrentNewsPaper, _currentNewsPaper),
+              FutureBuilder(
+                  future: _loadNewsPaperProvider(),
+                  builder: (ctx, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        height: 400,
+                        width: 400,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return _loadNewsPaper();
+                    }
+                  }),
+            ],
+          ),
         ));
   }
 
@@ -249,7 +255,7 @@ class _FeedScreenState extends State<FeedScreen> {
         );
       });
     } else {
-      return null;
+      return Center(child: CircularProgressIndicator());
     }
   }
 }
