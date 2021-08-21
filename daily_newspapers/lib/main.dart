@@ -1,4 +1,3 @@
-import 'package:daily_newspapers/dummy_feed_screen.dart';
 import 'package:daily_newspapers/providers/birgun_news.dart';
 import 'package:daily_newspapers/providers/cumhuriyet_news.dart';
 import 'package:daily_newspapers/providers/dunya_news.dart';

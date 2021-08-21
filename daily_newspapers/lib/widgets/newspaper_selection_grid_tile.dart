@@ -9,17 +9,25 @@ class NewspaperSelectionGridTile extends StatefulWidget {
   final String imageUrl;
   final String title;
   final List selectedNewsPapersTableName;
+  final List<Map<String, dynamic>> savedNewsPapersList;
 
   NewspaperSelectionGridTile({
     @required this.title,
     @required this.imageUrl,
     @required this.selectedNewsPapersTableName,
+    @required this.savedNewsPapersList,
   });
 }
 
 class _NewspaperSelectionGridTileState
     extends State<NewspaperSelectionGridTile> {
   bool _isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controlSavedNewsPapers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,18 @@ class _NewspaperSelectionGridTileState
                 fit: BoxFit.fill,
               )),
               if (_isSelected) Container(color: Colors.black38),
-              if (_isSelected) Icon(Icons.add)
+              if (_isSelected)
+                Container(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                )
             ],
           ),
         ),
@@ -46,20 +65,36 @@ class _NewspaperSelectionGridTileState
     );
   }
 
-  void _selectNewspaper() {
-    setState(() {
-      if (!_isSelected) {
-        widget.selectedNewsPapersTableName.add({
-          "title": widget.title,
-          "imageUrl": widget.imageUrl,
-        });
+  _controlSavedNewsPapers() {
+    if (widget.savedNewsPapersList.isNotEmpty) {
+      widget.savedNewsPapersList.forEach((element) {
+        if (element["title"] == widget.title) {
+          print(widget.title);
+          _isSelected = true;
+        }
+      });
+    } else {
+      _isSelected = false;
+    }
+  }
+
+  Future<void> _selectNewspaper() async {
+    if (!_isSelected) {
+      widget.selectedNewsPapersTableName.add({
+        "title": widget.title,
+        "imageUrl": widget.imageUrl,
+      });
+      setState(() {
         _isSelected = !_isSelected;
-      } else {
-        widget.selectedNewsPapersTableName
-            .removeWhere((element) => element["title"] == widget.title);
+      });
+    } else {
+      widget.selectedNewsPapersTableName
+          .removeWhere((element) => element["title"] == widget.title);
+      setState(() {
         _isSelected = !_isSelected;
-      }
-    });
-    print(widget.selectedNewsPapersTableName);
+      });
+      await DBHelper.deleteData(
+          DBHelper.selectedNewsPapersTableName, widget.title);
+    }
   }
 }

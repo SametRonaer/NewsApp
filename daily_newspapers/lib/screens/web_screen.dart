@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/helpers/share_news.dart';
 import 'package:daily_newspapers/models/news.dart';

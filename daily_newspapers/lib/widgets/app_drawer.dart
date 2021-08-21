@@ -1,5 +1,4 @@
 import 'package:daily_newspapers/constants/theme_mode.dart';
-import 'package:daily_newspapers/main.dart';
 import 'package:daily_newspapers/screens/feed_screen.dart';
 import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
