@@ -132,13 +132,15 @@ class _HorizontalListOfNewsPapersState
   Future<void> _getSelectedNewsPapers() async {
     var dataList = await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
     _selectedNewsPapersTableName.clear();
-    dataList.forEach((savedNewsPaper) {
-      AllNewsPapers.values.forEach((newsPaper) {
-        if (savedNewsPaper["title"] == newsPaper.toString()) {
-          addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);
-        }
+    if (dataList.isNotEmpty) {
+      dataList.forEach((savedNewsPaper) {
+        AllNewsPapers.values.forEach((newsPaper) {
+          if (savedNewsPaper["title"] == newsPaper.toString()) {
+            addNewsPaperCell(newsPaper, savedNewsPaper["imageUrl"]);
+          }
+        });
       });
-    });
+    } else {}
   }
 
   @override
@@ -152,7 +154,6 @@ class _HorizontalListOfNewsPapersState
                 width: double.infinity,
                 height: 130,
                 color: Theme.of(context).cardColor,
-                //color: Theme.of(context).cardColor,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -262,11 +263,17 @@ class _HorizontalListOfNewsPapersState
   Future<void> _deleteNewsPaper(AllNewsPapers newsPaper) async {
     await DBHelper.deleteData(
         DBHelper.selectedNewsPapersTableName, newsPaper.toString());
+    _selectedNewsPapersTableName.clear();
     await DBHelper.getFirstNewsPaper();
-    setState(() {
-      _selectedNewsPapersTableName.clear();
+    if (DBHelper.firstNewsPaper == null) {
+      _setCurrentNewsPaper(null);
+      //print("null newspaper");
+    } else {
       _setCurrentNewsPaper(DBHelper.firstNewsPaper);
-      Navigator.of(context).pop();
-    });
+      //print("This is: $newsPaper");
+    }
+    print("First newspaper is  ${DBHelper.firstNewsPaper}");
+    Navigator.of(context).pop();
+    setState(() {});
   }
 }

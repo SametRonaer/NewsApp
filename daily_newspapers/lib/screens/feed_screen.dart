@@ -9,6 +9,7 @@ import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
+import 'package:daily_newspapers/widgets/empty_newspapers_field.dart';
 
 import '../widgets/app_drawer.dart';
 import '../providers/bbc_news.dart';
@@ -64,7 +65,11 @@ class _FeedScreenState extends State<FeedScreen> {
                         ),
                       );
                     } else {
-                      return _loadNewsPaper();
+                      if (_currentNewsPaper != null) {
+                        return _loadNewsPaper();
+                      } else {
+                        return EmptyNewsPapersField();
+                      }
                     }
                   }),
             ],
@@ -74,7 +79,11 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void _switchCurrentNewsPaper(AllNewsPapers newsPaper) {
     setState(() {
-      _currentNewsPaper = newsPaper;
+      if (newsPaper != null) {
+        _currentNewsPaper = newsPaper;
+      } else {
+        _currentNewsPaper = null;
+      }
     });
   }
 

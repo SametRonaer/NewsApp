@@ -51,14 +51,16 @@ class NewspaperSelectionScreen extends StatelessWidget {
   Future<void> _getSavedNewsPapers() async {
     _savedNewsPapersList =
         await DBHelper.getData(DBHelper.selectedNewsPapersTableName);
-    print(_savedNewsPapersList);
+    //print(_savedNewsPapersList);
   }
 
   Future<void> _saveNewsPapers(BuildContext context) async {
     await Future.forEach(_selectedNewsPapersTableName, (element) async {
       await DBHelper.insert(DBHelper.selectedNewsPapersTableName, element);
-      await DBHelper.getFirstNewsPaper();
     });
-    Navigator.of(context).pushNamed(FeedScreen.routeName);
+    await DBHelper.getFirstNewsPaper();
+    print("First newspaper is ${DBHelper.firstNewsPaper}");
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(FeedScreen.routeName, (route) => false);
   }
 }

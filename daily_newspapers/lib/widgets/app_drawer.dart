@@ -4,6 +4,7 @@ import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -11,8 +12,36 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  bool isDarkMode = false;
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _getThemeMode() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    isDarkMode = sharedPreferences.getBool("isDarkMode");
+    if (sharedPreferences.getBool("isDarkMode") == null) {
+      print("it is null");
+    } else {
+      print("Hello");
+    }
+    // final int counter = (prefs.getInt('counter') ?? 0) + 1;
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: _getThemeMode(),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : _getDrawer());
+  }
+
+  Widget _getDrawer() {
     return Drawer(
       child: Container(
         color: Theme.of(context).cardColor,
@@ -36,14 +65,17 @@ class _AppDrawerState extends State<AppDrawer> {
             _getDrawerButton(context, Icons.money_outlined, "Ekonomi",
                 NewsOfCategoryScreen.routeName, Categories.Economy),
             _getDrawerButton(context, Icons.sports_soccer, "Spor",
-                NewsOfCategoryScreen.routeName),
+                NewsOfCategoryScreen.routeName, Categories.Sport),
             Divider(
                 thickness: 1,
                 color: Theme.of(context).primaryColor.withOpacity(0.5)),
             SizedBox(height: 10),
             _getDrawerButton(context, Icons.bookmark, "Kaydedilen Haberler",
                 SavedNewsScreen.routeName),
-            _getDarkModeButton(context, Icons.dark_mode, "Koyu Tema"),
+            _getDarkModeButton(
+                context,
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                isDarkMode ? "Gündüz Modu" : "Gece Modu"),
           ],
         ),
       ),
@@ -85,6 +117,7 @@ class _AppDrawerState extends State<AppDrawer> {
           onPressed: () {
             setState(() {
               Provider.of<ThemesOfApp>(context, listen: false).changeTheme();
+              isDarkMode = !isDarkMode;
             });
             Navigator.of(ctx).pop();
           }),
