@@ -61,48 +61,88 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
   }
 
   Future<void> _loadNews() async {
+    List<NewsModel> loadedNews;
     news.clear();
+
     if (category == Categories.Sport) {
-      news += await Provider.of<CnnNews>(context, listen: false).getSportNews();
-      news += await Provider.of<NtvNews>(context, listen: false).getSportNews();
-      news += await Provider.of<HaberturkNews>(context, listen: false)
+      loadedNews =
+          await Provider.of<CnnNews>(context, listen: false).getSportNews();
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<NtvNews>(context, listen: false).getSportNews();
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
           .getSportNews();
-      news += await Provider.of<HurriyetNews>(context, listen: false)
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HurriyetNews>(context, listen: false)
           .getSportNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<SabahNews>(context, listen: false).getSportNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<TakvimNews>(context, listen: false).getSportNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getSportNews();
+      _combineNews(loadedNews);
     } else if (category == Categories.World) {
-      news += await Provider.of<CnnNews>(context, listen: false).getWorldNews();
-      news += await Provider.of<NtvNews>(context, listen: false).getWorldNews();
-      news += await Provider.of<HaberturkNews>(context, listen: false)
+      loadedNews =
+          await Provider.of<CnnNews>(context, listen: false).getWorldNews();
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<NtvNews>(context, listen: false).getWorldNews();
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
           .getWorldNews();
-      news += await Provider.of<HurriyetNews>(context, listen: false)
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HurriyetNews>(context, listen: false)
           .getWorldNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<SabahNews>(context, listen: false).getWorldNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<TakvimNews>(context, listen: false).getWorldNews();
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getWorldNews();
+      _combineNews(loadedNews);
     } else if (category == Categories.Economy) {
-      news +=
+      loadedNews =
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<NtvNews>(context, listen: false).getEconomyNews();
-      news += await Provider.of<HaberturkNews>(context, listen: false)
-          .getWorldNews();
-      news += await Provider.of<HurriyetNews>(context, listen: false)
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
           .getEconomyNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<HurriyetNews>(context, listen: false)
+          .getEconomyNews();
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<SabahNews>(context, listen: false).getEconomyNews();
-      news += await Provider.of<TakvimNews>(context, listen: false)
+      _combineNews(loadedNews);
+      loadedNews += await Provider.of<TakvimNews>(context, listen: false)
           .getEconomyNews();
-      news +=
+      _combineNews(loadedNews);
+      loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getEconomyNews();
+      _combineNews(loadedNews);
     }
-    // news.shuffle();
+    news.shuffle();
+  }
+
+  void _combineNews(List<NewsModel> loadedNews) {
+    int index = 0;
+    if (loadedNews.length >= 9) {
+      while (index < 9) {
+        index++;
+        news.add(loadedNews[index]);
+      }
+      loadedNews.clear();
+    }
   }
 
   String _getTitleOfAppBar() {

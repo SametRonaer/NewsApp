@@ -14,7 +14,7 @@ class NewspaperSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Selection Screen")),
+        title: Center(child: Text("Gazeteler")),
         actions: [
           IconButton(
               icon: Icon(Icons.save),

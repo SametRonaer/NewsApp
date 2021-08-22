@@ -51,14 +51,14 @@ class _AppDrawerState extends State<AppDrawer> {
           children: [
             AppBar(
               title: Text(
-                "iris",
-                style: TextStyle(
-                    color: Theme.of(context).accentColor, fontSize: 24),
+                "Menü",
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
             ),
-            SizedBox(height: 140),
+            Image.asset("assets/images/iris_logo.png"),
+            SizedBox(height: 40),
             _getDrawerButton(
                 context, Icons.article_rounded, "Gündem", FeedScreen.routeName),
             _getDrawerButton(context, Icons.language, "Dünya",

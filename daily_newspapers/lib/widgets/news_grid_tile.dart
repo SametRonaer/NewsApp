@@ -19,9 +19,11 @@ class NewsGridTile extends StatelessWidget {
   Widget build(BuildContext context) {
     _newsListLength = newsList.length;
     _getNews(context);
+    print(newsList.length);
+    print(_newsCellWidgetsList.length);
     return ListView.builder(
       itemBuilder: (ctx, i) => _newsCellWidgetsList[i],
-      itemCount: newsList.length,
+      itemCount: _newsCellWidgetsList.length,
     );
   }
 
@@ -53,7 +55,8 @@ class NewsGridTile extends StatelessWidget {
             ],
           ),
         ));
-        _newsListLength -= 3;
+        print(3);
+        _newsListLength = _newsListLength - 3;
       } else if (_newsListLength == 2) {
         _newsCellWidgetsList.add(Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -76,7 +79,8 @@ class NewsGridTile extends StatelessWidget {
             ],
           ),
         ));
-        _newsListLength -= 2;
+        _newsListLength = _newsListLength - 2;
+        print(2);
       } else if (_newsListLength == 1) {
         _newsCellWidgetsList.add(Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -91,9 +95,8 @@ class NewsGridTile extends StatelessWidget {
             ],
           ),
         ));
-        _newsListLength -= 1;
-      } else {
-        return;
+        _newsListLength = _newsListLength - 1;
+        print(1);
       }
     }
   }
