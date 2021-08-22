@@ -10,48 +10,98 @@ enum CellType {
 class NewsGridTile extends StatelessWidget {
   final List<NewsModel> newsList;
   int newsOrder = 0;
+  int _newsListLength = 0;
+  final List<Widget> _newsCellWidgetsList = [];
 
   NewsGridTile(this.newsList);
 
   @override
   Widget build(BuildContext context) {
-    // return _getNews(context);
+    _newsListLength = newsList.length;
+    _getNews(context);
     return ListView.builder(
-      itemBuilder: (ctx, i) => _getNews(context),
+      itemBuilder: (ctx, i) => _newsCellWidgetsList[i],
       itemCount: newsList.length,
     );
   }
 
-  Widget _getNews(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          if (newsList.length - 1 >= newsOrder)
-            Row(
-              children: [
-                _getNewsCell(newsList[newsOrder], context, CellType.large),
-              ],
-            ),
-          if (newsList.length - 1 >= newsOrder + 1)
-            Row(
-              children: [
-                _getNewsCell(newsList[newsOrder + 1], context, CellType.small),
-                SizedBox(width: 10),
-                if (newsList.length - 1 >= newsOrder + 2)
-                  _getNewsCell(
-                      newsList[newsOrder + 2], context, CellType.small),
-                SizedBox(height: 10),
-              ],
-            ),
-        ],
-      ),
-    );
+  void _getNews(BuildContext context) {
+    while (_newsListLength > 0) {
+      if (_newsListLength >= 3) {
+        _newsCellWidgetsList.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              if (newsList.length - 1 >= newsOrder)
+                Row(
+                  children: [
+                    _getNewsCell(newsList[newsOrder], context, CellType.large),
+                  ],
+                ),
+              if (newsList.length - 1 >= newsOrder + 1)
+                Row(
+                  children: [
+                    _getNewsCell(
+                        newsList[newsOrder + 1], context, CellType.small),
+                    SizedBox(width: 10),
+                    if (newsList.length - 1 >= newsOrder + 2)
+                      _getNewsCell(
+                          newsList[newsOrder + 2], context, CellType.small),
+                    SizedBox(height: 10),
+                  ],
+                ),
+            ],
+          ),
+        ));
+        _newsListLength -= 3;
+      } else if (_newsListLength == 2) {
+        _newsCellWidgetsList.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              if (newsList.length - 1 >= newsOrder)
+                Row(
+                  children: [
+                    _getNewsCell(newsList[newsOrder], context, CellType.large),
+                  ],
+                ),
+              if (newsList.length - 1 >= newsOrder + 1)
+                Row(
+                  children: [
+                    _getNewsCell(
+                        newsList[newsOrder + 1], context, CellType.small),
+                    SizedBox(width: 10),
+                  ],
+                ),
+            ],
+          ),
+        ));
+        _newsListLength -= 2;
+      } else if (_newsListLength == 1) {
+        _newsCellWidgetsList.add(Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              if (newsList.length - 1 >= newsOrder)
+                Row(
+                  children: [
+                    _getNewsCell(newsList[newsOrder], context, CellType.large),
+                  ],
+                ),
+            ],
+          ),
+        ));
+        _newsListLength -= 1;
+      } else {
+        return;
+      }
+    }
   }
 
   Widget _getNewsCell(NewsModel news, BuildContext context, CellType cellType) {
     double imageHeight = cellType == CellType.large ? 180 : 135;
     newsOrder += 1;
+    final newsSource = _getNewsSource(news);
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -74,10 +124,25 @@ class NewsGridTile extends StatelessWidget {
             },
             child: Column(children: [
               Container(
-                child: Image.network(
-                  news.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: Stack(fit: StackFit.expand, children: [
+                  Image.network(
+                    news.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                  Container(
+                    height: imageHeight,
+                    width: double.infinity,
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                      child: Text(
+                        newsSource,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ]),
                 height: imageHeight,
                 width: double.infinity,
               ),
@@ -108,5 +173,25 @@ class NewsGridTile extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  String _getNewsSource(NewsModel news) {
+    if (news.newsUrl.contains("cnnturk")) {
+      return "CnnTürk";
+    } else if (news.newsUrl.contains("ntv")) {
+      return "Ntv";
+    } else if (news.newsUrl.contains("sabah")) {
+      return "Sabah";
+    } else if (news.newsUrl.contains("takvim")) {
+      return "Takvim";
+    } else if (news.newsUrl.contains("haberturk")) {
+      return "Habertürk";
+    } else if (news.newsUrl.contains("hurriyet")) {
+      return "Hürriyet";
+    } else if (news.newsUrl.contains("star")) {
+      return "Star";
+    } else {
+      return "";
+    }
   }
 }

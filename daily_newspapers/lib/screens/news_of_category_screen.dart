@@ -102,7 +102,7 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       news +=
           await Provider.of<StarNews>(context, listen: false).getEconomyNews();
     }
-    news.shuffle();
+    // news.shuffle();
   }
 
   String _getTitleOfAppBar() {
