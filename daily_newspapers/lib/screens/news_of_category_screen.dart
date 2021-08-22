@@ -64,9 +64,7 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
     news.clear();
     if (category == Categories.Sport) {
       news += await Provider.of<CnnNews>(context, listen: false).getSportNews();
-      print(news.length);
       news += await Provider.of<NtvNews>(context, listen: false).getSportNews();
-      print(news.length);
       news += await Provider.of<HaberturkNews>(context, listen: false)
           .getSportNews();
       news += await Provider.of<HurriyetNews>(context, listen: false)

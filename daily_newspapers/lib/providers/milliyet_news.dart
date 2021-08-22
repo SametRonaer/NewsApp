@@ -84,10 +84,6 @@ class MilliyetNews extends RssResponse {
         .where((child) => child.toString().contains("<description>"));
     var descriptionText = descriptionTag.toString();
     final firstIndex = descriptionText.indexOf("<p>");
-    // final endIndex = descriptionText.indexOf("</p>");
-    // print(endIndex);
-    // descriptionText =
-    //     descriptionText.replaceRange(endIndex, descriptionText.length, "");
     descriptionText = descriptionText.replaceRange(0, firstIndex, "");
     descriptionText = descriptionText
         .replaceFirst("<p>", "")

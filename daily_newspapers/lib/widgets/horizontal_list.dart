@@ -140,7 +140,7 @@ class _HorizontalListOfNewsPapersState
           }
         });
       });
-    } else {}
+    }
   }
 
   @override
@@ -267,13 +267,9 @@ class _HorizontalListOfNewsPapersState
     await DBHelper.getFirstNewsPaper();
     if (DBHelper.firstNewsPaper == null) {
       _setCurrentNewsPaper(null);
-      //print("null newspaper");
     } else {
       _setCurrentNewsPaper(DBHelper.firstNewsPaper);
-      //print("This is: $newsPaper");
     }
-    print("First newspaper is  ${DBHelper.firstNewsPaper}");
     Navigator.of(context).pop();
-    setState(() {});
   }
 }

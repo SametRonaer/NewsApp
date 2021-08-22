@@ -55,23 +55,14 @@ class DBHelper {
     final newsPapersList = await getData(DBHelper.selectedNewsPapersTableName);
     if (newsPapersList.isNotEmpty) {
       final firstNewsPaperTitle = newsPapersList[0]["title"];
-      print(firstNewsPaperTitle);
       AllNewsPapers.values.forEach((element) {
         if (element.toString() == firstNewsPaperTitle) {
           firstNewsPaper = element;
-          print("DB first newspaper $firstNewsPaper");
-          // return firstNewsPaper;
         }
-        // else {
-        //   firstNewsPaper = null;
-        //   return firstNewsPaper;
-        // }
       });
     } else {
       firstNewsPaper = null;
-      print("Empty list");
     }
-    //return null;
   }
 
   static Future<void> deleteData(String table, String newsPaper) async {

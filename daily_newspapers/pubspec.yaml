@@ -69,9 +69,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Atkinson_Hyperlegible
+    - family: Roboto_Condensed
       fonts:
-        - asset: assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf
+        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

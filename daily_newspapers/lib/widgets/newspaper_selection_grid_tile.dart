@@ -69,7 +69,6 @@ class _NewspaperSelectionGridTileState
     if (widget.savedNewsPapersList.isNotEmpty) {
       widget.savedNewsPapersList.forEach((element) {
         if (element["title"] == widget.title) {
-          print(widget.title);
           _isSelected = true;
         }
       });

@@ -168,7 +168,6 @@ class _FeedScreenState extends State<FeedScreen> {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {
-              print(newsObject.news[index]);
               return FeedListTile(newsObject.news[index]);
             },
             itemCount: newsObject.news.length,

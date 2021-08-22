@@ -33,12 +33,13 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _getThemeMode(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
-                : _getDrawer());
+    return _getDrawer();
+    // return FutureBuilder(
+    //     future: _getThemeMode(),
+    //     builder: (ctx, snapshot) =>
+    //         snapshot.connectionState == ConnectionState.waiting
+    //             ? Center(child: CircularProgressIndicator())
+    //             : _getDrawer());
   }
 
   Widget _getDrawer() {
