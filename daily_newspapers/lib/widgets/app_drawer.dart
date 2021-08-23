@@ -18,17 +18,13 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> _getThemeMode() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    isDarkMode = sharedPreferences.getBool("isDarkMode");
-    if (sharedPreferences.getBool("isDarkMode") == null) {
-      print("it is null");
+    ThemeMode currentMode =
+        Provider.of<ThemesOfApp>(context, listen: false).themeMode;
+    if (currentMode == ThemeMode.dark) {
+      isDarkMode = true;
     } else {
-      print("Hello");
+      isDarkMode = false;
     }
-    // final int counter = (prefs.getInt('counter') ?? 0) + 1;
   }
 
   @override
@@ -117,8 +113,8 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           onPressed: () {
             setState(() {
-              Provider.of<ThemesOfApp>(context, listen: false).changeTheme();
-              isDarkMode = !isDarkMode;
+              Provider.of<ThemesOfApp>(context, listen: false).setMode();
+              // isDarkMode = !isDarkMode;
             });
             Navigator.of(ctx).pop();
           }),

@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemesOfApp()),
       ],
       child: Consumer<ThemesOfApp>(builder: (context, themeProvider, child) {
+        // themeProvider.getMode();
         return MaterialApp(
           themeMode: themeProvider.themeMode,
           theme: ThemeData(

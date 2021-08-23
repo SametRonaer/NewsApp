@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:daily_newspapers/constants/theme_mode.dart';
 import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/screens/feed_screen.dart';
 import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LaunchScreen extends StatelessWidget {
   bool _selectedNewsPapersEmpty = true;

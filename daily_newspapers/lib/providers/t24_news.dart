@@ -115,7 +115,6 @@ class T24News extends RssResponse {
         .toString()
         .replaceFirst('(<link>', '')
         .replaceFirst('</link>)', '');
-    print(newsUrlText);
     return newsUrlText;
   }
 }
