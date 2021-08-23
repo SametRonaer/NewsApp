@@ -151,6 +151,7 @@ class NewsGridTile extends StatelessWidget {
                       fontSize: 16,
                       color: Theme.of(context).accentColor,
                       fontWeight: FontWeight.bold),
+                  maxLines: 3,
                   textAlign: TextAlign.center,
                 ),
               ),

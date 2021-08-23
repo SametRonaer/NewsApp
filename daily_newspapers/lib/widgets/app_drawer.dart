@@ -30,12 +30,6 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return _getDrawer();
-    // return FutureBuilder(
-    //     future: _getThemeMode(),
-    //     builder: (ctx, snapshot) =>
-    //         snapshot.connectionState == ConnectionState.waiting
-    //             ? Center(child: CircularProgressIndicator())
-    //             : _getDrawer());
   }
 
   Widget _getDrawer() {
@@ -53,7 +47,9 @@ class _AppDrawerState extends State<AppDrawer> {
               centerTitle: true,
               automaticallyImplyLeading: false,
             ),
-            Image.asset("assets/images/iris_logo.png"),
+            isDarkMode
+                ? Image.asset("assets/images/iris_dark_mode.png")
+                : Image.asset("assets/images/iris_logo.png"),
             SizedBox(height: 40),
             _getDrawerButton(
                 context, Icons.article_rounded, "Gündem", FeedScreen.routeName),
@@ -85,6 +81,9 @@ class _AppDrawerState extends State<AppDrawer> {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: TextButton.icon(
+        style: TextButton.styleFrom(
+            minimumSize: Size(double.infinity, 30.0),
+            alignment: Alignment.topLeft),
         icon: Icon(icons, color: Theme.of(ctx).buttonColor),
         label: Text(
           title,
@@ -103,6 +102,9 @@ class _AppDrawerState extends State<AppDrawer> {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: TextButton.icon(
+          style: TextButton.styleFrom(
+              minimumSize: Size(double.infinity, 30.0),
+              alignment: Alignment.topLeft),
           icon: Icon(icons, color: Theme.of(ctx).buttonColor),
           label: Text(
             title,

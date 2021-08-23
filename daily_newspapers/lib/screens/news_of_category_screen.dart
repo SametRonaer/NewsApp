@@ -56,7 +56,11 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
         future: _loadNews(),
         builder: (ctx, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.grey.shade700,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ))
                 : NewsGridTile(news),
       ),
     );

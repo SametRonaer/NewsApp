@@ -25,25 +25,28 @@ class NewspaperSelectionScreen extends StatelessWidget {
       ),
       body: FutureBuilder(
         future: _getSavedNewsPapers(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
-                : GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: NewsPapers.allNewsPapersWithUrl.length,
-                    itemBuilder: (ctx, i) => NewspaperSelectionGridTile(
-                      title: NewsPapers.allNewsPapersWithUrl[i]["title"],
-                      imageUrl: NewsPapers.allNewsPapersWithUrl[i]["imageUrl"],
-                      selectedNewsPapersTableName: _selectedNewsPapersTableName,
-                      savedNewsPapersList: _savedNewsPapersList,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(child: CircularProgressIndicator())
+            : Container(
+                color: Theme.of(context).cardColor,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: NewsPapers.allNewsPapersWithUrl.length,
+                  itemBuilder: (ctx, i) => NewspaperSelectionGridTile(
+                    title: NewsPapers.allNewsPapersWithUrl[i]["title"],
+                    imageUrl: NewsPapers.allNewsPapersWithUrl[i]["imageUrl"],
+                    selectedNewsPapersTableName: _selectedNewsPapersTableName,
+                    savedNewsPapersList: _savedNewsPapersList,
                   ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                ),
+              ),
       ),
     );
   }

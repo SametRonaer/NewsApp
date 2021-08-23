@@ -40,11 +40,14 @@ class _NewspaperSelectionGridTileState
           child: Stack(
             fit: StackFit.expand,
             children: [
-              GridTile(
-                  child: Image.network(
-                widget.imageUrl,
-                fit: BoxFit.fill,
-              )),
+              Container(
+                color: Colors.white,
+                child: GridTile(
+                    child: Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.fill,
+                )),
+              ),
               if (_isSelected) Container(color: Colors.black38),
               if (_isSelected)
                 Container(

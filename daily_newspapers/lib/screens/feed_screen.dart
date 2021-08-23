@@ -63,6 +63,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         child: Center(
                           child: CircularProgressIndicator(
                             backgroundColor: Theme.of(context).primaryColor,
+                            color: Colors.grey.shade700,
                           ),
                         ),
                       );
@@ -118,7 +119,7 @@ class _FeedScreenState extends State<FeedScreen> {
       return Provider.of<T24News>(context, listen: false).getMainNews();
     } else if (_currentNewsPaper == AllNewsPapers.TGRTNews) {
       return Provider.of<TGRTNews>(context, listen: false).getMainNews();
-    }else if (_currentNewsPaper == AllNewsPapers.DWNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.DWNews) {
       return Provider.of<DWNews>(context, listen: false).getMainNews();
     }
     return null;
@@ -268,7 +269,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         );
       });
-    }else if (_currentNewsPaper == AllNewsPapers.TGRTNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.TGRTNews) {
       return Consumer<TGRTNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
@@ -279,7 +280,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         );
       });
-    }else if (_currentNewsPaper == AllNewsPapers.DWNews) {
+    } else if (_currentNewsPaper == AllNewsPapers.DWNews) {
       return Consumer<DWNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
