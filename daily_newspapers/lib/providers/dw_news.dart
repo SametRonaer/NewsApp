@@ -102,8 +102,7 @@ class DWNews extends RssResponse {
   @override
   String extractImageUrl(XmlElement item) {
     try {
-      final logoUrl =
-          "https://www.fluentu.com/blog/german/wp-content/uploads/sites/5/2015/09/german-talk-radio1.png";
+      final logoUrl = "https://static.dw.com/image/52015610_101.png";
       return logoUrl;
     } catch (e) {
       return "broken";

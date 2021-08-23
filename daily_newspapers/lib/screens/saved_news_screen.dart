@@ -1,5 +1,6 @@
 import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/models/news.dart';
+import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/feed_list_tile.dart';
 import 'package:flutter/material.dart';
 import '../helpers/share_news.dart';
@@ -33,8 +34,9 @@ class _SavedNewsScreenState extends State<SavedNewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Saved News")),
+        title: Center(child: Text("Kaydedilen Haberler")),
       ),
+      drawer: AppDrawer(),
       body: FutureBuilder(
         future: _getSavedNews(),
         builder: (ctx, snapshot) => snapshot.connectionState ==

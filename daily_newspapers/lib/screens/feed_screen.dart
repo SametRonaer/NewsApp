@@ -58,8 +58,9 @@ class _FeedScreenState extends State<FeedScreen> {
                   builder: (ctx, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container(
-                        height: 400,
-                        width: 400,
+                        height: 100,
+                        width: 100,
+                        alignment: Alignment.topCenter,
                         child: Center(
                           child: CircularProgressIndicator(
                             backgroundColor: Theme.of(context).primaryColor,

@@ -14,35 +14,53 @@ class WebScreen extends StatefulWidget {
 }
 
 class _WebScreenState extends State<WebScreen> {
-  bool _isSaved = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text("Haber")),
-          actions: [
-            IconButton(icon: Icon(Icons.share), onPressed: _shareNews),
-            IconButton(
-              icon: Icon(
-                  _isSaved ? Icons.bookmark : Icons.bookmark_outline_sharp),
-              onPressed: _saveNews,
-            ),
-          ],
-        ),
-        body: FutureBuilder(
-          future: searchNewsInDatabase(),
-          builder: (ctx, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : WebView(
-                      javascriptMode: JavascriptMode.disabled,
-                      initialUrl: widget._news.newsUrl,
-                    ),
-        ));
+      appBar: AppBar(
+        title: Center(child: Text("Haber")),
+        actions: [
+          IconButton(icon: Icon(Icons.share), onPressed: _shareNews),
+          SaveNews(widget._news),
+        ],
+      ),
+      body: WebView(
+        javascriptMode: JavascriptMode.disabled,
+        initialUrl: widget._news.newsUrl,
+      ),
+    );
   }
 
   Future<void> _shareNews() async {
     await ShareNewsWithOtherApps.shareNews(widget._news.newsUrl);
+  }
+}
+
+class SaveNews extends StatefulWidget {
+  final NewsModel _news;
+
+  SaveNews(this._news);
+
+  @override
+  _SaveNewsState createState() => _SaveNewsState();
+}
+
+class _SaveNewsState extends State<SaveNews> {
+  bool _isSaved = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: searchNewsInDatabase(),
+      builder: (ctx, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(child: CircularProgressIndicator())
+              : IconButton(
+                  icon: Icon(
+                      _isSaved ? Icons.bookmark : Icons.bookmark_outline_sharp),
+                  onPressed: _saveNews,
+                ),
+    );
   }
 
   Future<void> _saveNews() async {

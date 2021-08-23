@@ -88,8 +88,7 @@ class NewsPapers {
     },
     {
       "title": AllNewsPapers.DWNews.toString(),
-      "imageUrl":
-          "https://upload.wikimedia.org/wikipedia/commons/8/8e/DW_%28TV%29_Logo_2012.png"
+      "imageUrl": "https://static.dw.com/image/52015610_101.png"
     }
   ];
 }
