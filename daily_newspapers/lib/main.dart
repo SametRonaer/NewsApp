@@ -13,6 +13,7 @@ import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
 
 import 'constants/theme_mode.dart';
+import 'dummy_feed_screen.dart';
 import 'providers/bbc_news.dart';
 import 'providers/cnn_news.dart';
 import 'providers/haberturk_news.dart';
@@ -46,7 +47,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemesOfApp()),
       ],
       child: Consumer<ThemesOfApp>(builder: (context, themeProvider, child) {
-        // themeProvider.getMode();
         return MaterialApp(
           themeMode: themeProvider.themeMode,
           theme: ThemeData(

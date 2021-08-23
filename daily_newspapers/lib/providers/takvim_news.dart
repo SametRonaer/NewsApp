@@ -62,58 +62,83 @@ class TakvimNews extends RssResponse {
         ));
       },
     ).toList();
+    _checkBrokenNews();
   }
 
   @override
   String extractTitle(XmlElement item) {
-    final titleTag =
-        item.children.where((child) => child.toString().contains("<title>"));
-    final titleText = titleTag
-        .toString()
-        .replaceFirst("(<title><![CDATA[", "")
-        .replaceFirst("]]></title>)", "")
-        .replaceAll("&quot;", '"')
-        .replaceAll("&#39;", "'");
-    return titleText;
+    try {
+      final titleTag =
+          item.children.where((child) => child.toString().contains("<title>"));
+      final titleText = titleTag
+          .toString()
+          .replaceFirst("(<title><![CDATA[", "")
+          .replaceFirst("]]></title>)", "")
+          .replaceAll("&quot;", '"')
+          .replaceAll("&#39;", "'");
+      return titleText;
+    } catch (e) {
+      return "broken";
+    }
   }
 
   @override
   String extractDescription(XmlElement item) {
-    final descriptionTag = item.children
-        .where((child) => child.toString().contains("<description>"));
-    var descriptionText = descriptionTag.toString();
-    final firstIndex = descriptionText.indexOf('alt="');
-    final endIndex = descriptionText.indexOf("<a href");
-    descriptionText =
-        descriptionText.replaceRange(endIndex, descriptionText.length, "");
-    descriptionText = descriptionText.replaceRange(0, firstIndex, "");
-    descriptionText = descriptionText
-        .replaceFirst("alt=", "")
-        .replaceFirst("/><br />", "")
-        .replaceAll("&quot;", '"')
-        .replaceAll("&#39;", "'");
-    return descriptionText;
+    try {
+      final descriptionTag = item.children
+          .where((child) => child.toString().contains("<description>"));
+      var descriptionText = descriptionTag.toString();
+      final firstIndex = descriptionText.indexOf('alt="');
+      final endIndex = descriptionText.indexOf("<a href");
+      descriptionText =
+          descriptionText.replaceRange(endIndex, descriptionText.length, "");
+      descriptionText = descriptionText.replaceRange(0, firstIndex, "");
+      descriptionText = descriptionText
+          .replaceFirst("alt=", "")
+          .replaceFirst("/><br />", "")
+          .replaceAll("&quot;", '"')
+          .replaceAll("&#39;", "'");
+      return descriptionText;
+    } catch (e) {
+      return "broken";
+    }
   }
 
   @override
   String extractImageUrl(XmlElement item) {
-    final imageTag =
-        item.children.where((child) => child.toString().contains("<enclosure"));
-    var imageUrlText = imageTag.toString();
-    final endIndex = imageUrlText.indexOf('" length="50000"');
-    imageUrlText = imageUrlText.replaceRange(endIndex, imageUrlText.length, "");
-    imageUrlText = imageUrlText.replaceFirst('(<enclosure url="', "");
-    return imageUrlText;
+    try {
+      final imageTag = item.children
+          .where((child) => child.toString().contains("<enclosure"));
+      var imageUrlText = imageTag.toString();
+      final endIndex = imageUrlText.indexOf('" length="50000"');
+      imageUrlText =
+          imageUrlText.replaceRange(endIndex, imageUrlText.length, "");
+      imageUrlText = imageUrlText.replaceFirst('(<enclosure url="', "");
+      return imageUrlText;
+    } catch (e) {
+      return "broken";
+    }
   }
 
   @override
   String extractNewsUrl(XmlElement item) {
-    final linkTag =
-        item.children.where((child) => child.toString().contains("<link>"));
-    final newsUrlText = linkTag
-        .toString()
-        .replaceFirst('(<link>', '')
-        .replaceFirst('</link>)', '');
-    return newsUrlText;
+    try {
+      final linkTag =
+          item.children.where((child) => child.toString().contains("<link>"));
+      final newsUrlText = linkTag
+          .toString()
+          .replaceFirst('(<link>', '')
+          .replaceFirst('</link>)', '');
+      return newsUrlText;
+    } catch (e) {
+      return "broken";
+    }
+  }
+
+  void _checkBrokenNews() {
+    news.removeWhere((element) => element.title == "broken");
+    news.removeWhere((element) => element.description == "broken");
+    news.removeWhere((element) => element.imageUrl == "broken");
+    news.removeWhere((element) => element.newsUrl == "broken");
   }
 }

@@ -16,7 +16,7 @@ class DummyFeedScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("onpressed");
-          Provider.of<T24News>(context, listen: false).getMainNews();
+          Provider.of<SabahNews>(context, listen: false).getEconomyNews();
         },
       ),
     );

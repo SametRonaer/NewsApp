@@ -112,24 +112,31 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       loadedNews =
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
+      print(1);
       loadedNews +=
           await Provider.of<NtvNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
+      print(2);
       loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
+      print(3);
       loadedNews += await Provider.of<HurriyetNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
+      print(4);
       loadedNews +=
           await Provider.of<SabahNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
+      print(5);
       loadedNews += await Provider.of<TakvimNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
+      print(6);
       loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
+      print(7);
     }
     news.shuffle();
   }

@@ -144,13 +144,15 @@ class NewsGridTile extends StatelessWidget {
                 height: imageHeight,
                 width: double.infinity,
               ),
-              Text(
-                news.title,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+              Expanded(
+                child: Text(
+                  news.title,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
               Expanded(
                 child: Padding(
