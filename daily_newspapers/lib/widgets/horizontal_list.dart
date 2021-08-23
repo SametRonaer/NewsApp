@@ -215,6 +215,7 @@ class _HorizontalListOfNewsPapersState
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 border: Border.all(color: Colors.black38, width: 2),
+                color: Colors.white,
               ),
               //color: Colors.green,
               child: ClipRRect(

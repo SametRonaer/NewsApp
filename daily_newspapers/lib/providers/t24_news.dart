@@ -46,7 +46,7 @@ class T24News extends RssResponse {
     var response = await http.get(url);
     var decodedResponse = utf8.decode(response.bodyBytes);
     var document = XmlDocument.parse(decodedResponse);
-    var items = document.findAllElements("<item>").toList();
+    var items = document.findAllElements("item").toList();
     putNews(items);
   }
 
@@ -64,7 +64,6 @@ class T24News extends RssResponse {
         ));
       },
     ).toList();
-    print(items);
   }
 
   @override
@@ -94,17 +93,11 @@ class T24News extends RssResponse {
   @override
   String extractImageUrl(XmlElement item) {
     // There are no images in RSS response that's why i used bbc logo for all bbc news
-    final imageTag = item.children
-        .where((child) => child.toString().contains("<enclosure>"));
-    var imageUrlText = imageTag.toString();
-    // final firstIndex = imageUrlText.indexOf('url="');
-    // final endIndex = imageUrlText.indexOf('" length');
-    // imageUrlText = imageUrlText
-    //     .replaceRange(endIndex, imageUrlText.length, "")
-    //     .replaceRange(0, firstIndex, "");
-    //print(imageUrlText);
-
-    return imageUrlText;
+    // final imageTag = item.children
+    //     .where((child) => child.toString().contains("<enclosure>"));
+    // var imageUrlText = imageTag.toString();
+    final logoUrl = "https://t24.com.tr/share/twitter.jpg";
+    return logoUrl;
   }
 
   @override

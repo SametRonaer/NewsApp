@@ -3,12 +3,14 @@ import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/providers/birgun_news.dart';
 import 'package:daily_newspapers/providers/cumhuriyet_news.dart';
 import 'package:daily_newspapers/providers/dunya_news.dart';
+import 'package:daily_newspapers/providers/dw_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/milliyet_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
+import 'package:daily_newspapers/providers/tgrt_news.dart';
 import 'package:daily_newspapers/widgets/empty_newspapers_field.dart';
 
 import '../widgets/app_drawer.dart';
@@ -114,6 +116,10 @@ class _FeedScreenState extends State<FeedScreen> {
       return Provider.of<StarNews>(context, listen: false).getMainNews();
     } else if (_currentNewsPaper == AllNewsPapers.T24News) {
       return Provider.of<T24News>(context, listen: false).getMainNews();
+    } else if (_currentNewsPaper == AllNewsPapers.TGRTNews) {
+      return Provider.of<TGRTNews>(context, listen: false).getMainNews();
+    }else if (_currentNewsPaper == AllNewsPapers.DWNews) {
+      return Provider.of<DWNews>(context, listen: false).getMainNews();
     }
     return null;
   }
@@ -253,6 +259,28 @@ class _FeedScreenState extends State<FeedScreen> {
       });
     } else if (_currentNewsPaper == AllNewsPapers.T24News) {
       return Consumer<T24News>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    }else if (_currentNewsPaper == AllNewsPapers.TGRTNews) {
+      return Consumer<TGRTNews>(builder: (ctx, newsObject, child) {
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (ctx, index) {
+              return FeedListTile(newsObject.news[index]);
+            },
+            itemCount: newsObject.news.length,
+          ),
+        );
+      });
+    }else if (_currentNewsPaper == AllNewsPapers.DWNews) {
+      return Consumer<DWNews>(builder: (ctx, newsObject, child) {
         return Expanded(
           child: ListView.builder(
             itemBuilder: (ctx, index) {

@@ -12,6 +12,8 @@ enum AllNewsPapers {
   TakvimNews,
   StarNews,
   T24News,
+  TGRTNews,
+  DWNews,
 }
 
 class NewsPapers {
@@ -19,7 +21,7 @@ class NewsPapers {
     {
       "title": AllNewsPapers.NtvNews.toString(),
       "imageUrl":
-          "https://upload.wikimedia.org/wikipedia/commons/b/b5/NTV_logo.png"
+          "https://listelist.com/wp-content/uploads/2013/06/murat-toklucu-ntv-istifa-gezi.jpg"
     },
     {
       "title": AllNewsPapers.CnnNews.toString(),
@@ -56,11 +58,11 @@ class NewsPapers {
       "imageUrl":
           "https://media-exp1.licdn.com/dms/image/C560BAQGKIn3nm52lbw/company-logo_200_200/0/1576073798675?e=2159024400&v=beta&t=5T_CUOK90_P1Xk-2mc4kycgnR7KsS1DUUMq_-4DZHq0"
     },
-    {
-      "title": AllNewsPapers.MilliyetNews.toString(),
-      "imageUrl":
-          "https://upload.wikimedia.org/wikipedia/tr/archive/9/90/20130126180709%21Milliyet_logosu.png"
-    },
+    // {
+    //   "title": AllNewsPapers.MilliyetNews.toString(),
+    //   "imageUrl":
+    //       "https://upload.wikimedia.org/wikipedia/tr/archive/9/90/20130126180709%21Milliyet_logosu.png"
+    // },
     {
       "title": AllNewsPapers.SabahNews.toString(),
       "imageUrl":
@@ -68,15 +70,26 @@ class NewsPapers {
     },
     {
       "title": AllNewsPapers.TakvimNews.toString(),
-      "imageUrl": "https://itkv.tmgrup.com.tr/2020/07/15/1594845869785.png"
+      "imageUrl":
+          "https://upload.wikimedia.org/wikipedia/tr/archive/9/9c/20100222173512%21Takvimlogo.gif"
     },
     {
       "title": AllNewsPapers.StarNews.toString(),
       "imageUrl": "https://www.star.com.tr/_imgs/starkarelogo.jpg"
     },
+    // {
+    //   "title": AllNewsPapers.T24News.toString(),
+    //   "imageUrl": "https://t24.com.tr/share/twitter.jpg"
+    // },
     {
-      "title": AllNewsPapers.T24News.toString(),
-      "imageUrl": "https://t24.com.tr/share/twitter.jpg"
+      "title": AllNewsPapers.TGRTNews.toString(),
+      "imageUrl":
+          "https://upload.wikimedia.org/wikipedia/commons/e/e1/TGRT_Haber_logosu.png"
     },
+    {
+      "title": AllNewsPapers.DWNews.toString(),
+      "imageUrl":
+          "https://upload.wikimedia.org/wikipedia/commons/8/8e/DW_%28TV%29_Logo_2012.png"
+    }
   ];
 }

@@ -1,11 +1,13 @@
 import 'package:daily_newspapers/models/news.dart';
 import 'package:daily_newspapers/providers/cnn_news.dart';
+import 'package:daily_newspapers/providers/dw_news.dart';
 import 'package:daily_newspapers/providers/haberturk_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/ntv_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
+import 'package:daily_newspapers/providers/tgrt_news.dart';
 import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/news_grid_tile.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +88,12 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getSportNews();
       _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<TGRTNews>(context, listen: false).getSportNews();
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<DWNews>(context, listen: false).getSportNews();
+      _combineNews(loadedNews);
     } else if (category == Categories.World) {
       loadedNews =
           await Provider.of<CnnNews>(context, listen: false).getWorldNews();
@@ -103,40 +111,42 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
           await Provider.of<SabahNews>(context, listen: false).getWorldNews();
       _combineNews(loadedNews);
       loadedNews +=
-          await Provider.of<TakvimNews>(context, listen: false).getWorldNews();
+          await Provider.of<StarNews>(context, listen: false).getWorldNews();
       _combineNews(loadedNews);
       loadedNews +=
-          await Provider.of<StarNews>(context, listen: false).getWorldNews();
+          await Provider.of<TGRTNews>(context, listen: false).getWorldNews();
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<DWNews>(context, listen: false).getWorldNews();
       _combineNews(loadedNews);
     } else if (category == Categories.Economy) {
       loadedNews =
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
-      print(1);
       loadedNews +=
           await Provider.of<NtvNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
-      print(2);
       loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
-      print(3);
       loadedNews += await Provider.of<HurriyetNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
-      print(4);
       loadedNews +=
           await Provider.of<SabahNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
-      print(5);
       loadedNews += await Provider.of<TakvimNews>(context, listen: false)
           .getEconomyNews();
       _combineNews(loadedNews);
-      print(6);
       loadedNews +=
           await Provider.of<StarNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
-      print(7);
+      loadedNews +=
+          await Provider.of<TGRTNews>(context, listen: false).getEconomyNews();
+      _combineNews(loadedNews);
+      loadedNews +=
+          await Provider.of<DWNews>(context, listen: false).getEconomyNews();
+      _combineNews(loadedNews);
     }
     news.shuffle();
   }

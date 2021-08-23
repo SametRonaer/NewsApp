@@ -190,6 +190,10 @@ class NewsGridTile extends StatelessWidget {
       return "Hürriyet";
     } else if (news.newsUrl.contains("star")) {
       return "Star";
+    } else if (news.newsUrl.contains("tgrt")) {
+      return "TGRT";
+    } else if (news.newsUrl.contains("dw")) {
+      return "DW";
     } else {
       return "";
     }

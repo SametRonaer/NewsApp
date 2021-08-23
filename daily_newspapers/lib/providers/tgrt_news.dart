@@ -4,14 +4,13 @@ import '../models/rss_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 
-class MilliyetNews extends RssResponse {
+class TGRTNews extends RssResponse {
   final List<NewsModel> news = [];
 
-  final _mainNewsUrl = "https://www.milliyet.com.tr/rss/rssNew/gundemRss.xml";
-  final _sportNewsUrl = "";
-  final _economyNewsUrl =
-      "https://www.milliyet.com.tr/rss/rssNew/ekonomiRss.xml";
-  final _worldNewsUrl = "https://www.milliyet.com.tr/rss/rssNew/dunyaRss.xml";
+  final _mainNewsUrl = "https://www.tgrthaber.com.tr/feed/sondakika/index.rss";
+  final _sportNewsUrl = "https://www.tgrthaber.com.tr/feed/spor/index.rss";
+  final _economyNewsUrl = "https://www.tgrthaber.com.tr/feed/ekonomi/index.rss";
+  final _worldNewsUrl = "https://www.tgrthaber.com.tr/feed/dunya/index.rss";
   @override
   Future<void> getMainNews() async {
     await sendRequest(_mainNewsUrl);
@@ -89,15 +88,11 @@ class MilliyetNews extends RssResponse {
       final descriptionTag = item.children
           .where((child) => child.toString().contains("<description>"));
       var descriptionText = descriptionTag.toString();
-      final firstIndex = descriptionText.indexOf("<p>");
-      descriptionText = descriptionText.replaceRange(0, firstIndex, "");
       descriptionText = descriptionText
-          .replaceFirst("<p><strong>", "")
-          .replaceFirst("</p>", "")
-          .replaceFirst("]]></description>)", "")
+          .replaceFirst("(<description><![CDATA[", "")
+          .replaceFirst(']]></description>)', "")
           .replaceAll("&quot;", '"')
           .replaceAll("&#39;", "'");
-      print(descriptionText);
       return descriptionText;
     } catch (e) {
       return "broken";
@@ -107,12 +102,15 @@ class MilliyetNews extends RssResponse {
   @override
   String extractImageUrl(XmlElement item) {
     try {
-      final imageTag =
-          item.children.where((child) => child.toString().contains("image"));
-      final imageUrlText = imageTag
-          .toString()
-          .replaceFirst("(<image>", "")
-          .replaceFirst("</image>)", "");
+      final imageTag = item.children
+          .where((child) => child.toString().contains("<media:thumbnail"));
+      var imageUrlText = imageTag.toString();
+      var firstIndex = imageUrlText.indexOf('" url="');
+      firstIndex += 7;
+      final endIndex = imageUrlText.indexOf('"></media:thumbnail>)');
+      imageUrlText =
+          imageUrlText.replaceRange(endIndex, imageUrlText.length, "");
+      imageUrlText = imageUrlText.replaceRange(0, firstIndex, "");
       return imageUrlText;
     } catch (e) {
       return "broken";
@@ -122,12 +120,12 @@ class MilliyetNews extends RssResponse {
   @override
   String extractNewsUrl(XmlElement item) {
     try {
-      final linkTag = item.children
-          .where((child) => child.toString().contains("atom:link"));
+      final linkTag =
+          item.children.where((child) => child.toString().contains("<link>"));
       final newsUrlText = linkTag
           .toString()
-          .replaceFirst('(<atom:link href="', '')
-          .replaceFirst('"/>)', '');
+          .replaceFirst('(<link><![CDATA[', '')
+          .replaceFirst(']]></link>)', '');
       return newsUrlText;
     } catch (e) {
       return "broken";

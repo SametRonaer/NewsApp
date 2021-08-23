@@ -1,12 +1,14 @@
 import 'package:daily_newspapers/providers/birgun_news.dart';
 import 'package:daily_newspapers/providers/cumhuriyet_news.dart';
 import 'package:daily_newspapers/providers/dunya_news.dart';
+import 'package:daily_newspapers/providers/dw_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/milliyet_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
+import 'package:daily_newspapers/providers/tgrt_news.dart';
 import 'package:daily_newspapers/screens/launch_screen.dart';
 import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
@@ -44,6 +46,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TakvimNews()),
         ChangeNotifierProvider(create: (_) => StarNews()),
         ChangeNotifierProvider(create: (_) => T24News()),
+        ChangeNotifierProvider(create: (_) => TGRTNews()),
+        ChangeNotifierProvider(create: (_) => DWNews()),
         ChangeNotifierProvider(create: (_) => ThemesOfApp()),
       ],
       child: Consumer<ThemesOfApp>(builder: (context, themeProvider, child) {
