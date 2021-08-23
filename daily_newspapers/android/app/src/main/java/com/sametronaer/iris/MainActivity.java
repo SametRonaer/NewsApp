@@ -1,4 +1,4 @@
-package com.example.daily_newspapers;
+package com.sametronaer.iris;
 
 import io.flutter.embedding.android.FlutterActivity;
 
