@@ -93,7 +93,8 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
         ),
         onPressed: () => Navigator.of(ctx)
-            .pushReplacementNamed(routeName, arguments: category),
+            .pushNamed(routeName, arguments: category)
+            .then((value) => Navigator.of(context).pop()),
       ),
     );
   }
