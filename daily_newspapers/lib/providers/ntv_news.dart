@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import '../models/news.dart';
 import '../models/rss_response.dart';
 import 'package:http/http.dart' as http;
@@ -47,8 +48,9 @@ class NtvNews extends RssResponse {
     var items = document.findAllElements("entry").toList();
     putNews(items);
 
-    // log(items.toList()[0].toString());
-    extractTitle(items[2]);
+    //log(items.toList()[0].toString());
+    //extractTitle(items[2]);
+    extractNewsDate(items[2]);
   }
 
   @override
@@ -62,6 +64,8 @@ class NtvNews extends RssResponse {
           description: extractDescription(item),
           imageUrl: extractImageUrl(item),
           newsUrl: extractNewsUrl(item),
+          newsDate: extractNewsDate(item)["date"],
+          newsHour: extractNewsDate(item)["hour"],
         ));
       },
     ).toList();
@@ -130,5 +134,27 @@ class NtvNews extends RssResponse {
     newsUrl = newsUrl.replaceRange(endPatternIndex, newsUrl.length, "");
     newsUrl = newsUrl.replaceRange(0, startPatternIndex, "");
     return newsUrl;
+  }
+
+  @override
+  Map<String, String> extractNewsDate(XmlElement item) {
+    final publishedTag =
+        item.children.where((child) => child.toString().contains("published"));
+    var newsDate = publishedTag.toString();
+    final startPatternIndex =
+        newsDate.indexOf("(<published>") + "(<published>".length;
+    final endPatternIndex = newsDate.indexOf("</published>)");
+    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+    final splittingPointIndex = newsDate.indexOf("T");
+    var splittedDate = newsDate.split("T");
+    var newsHour = splittedDate[1];
+    newsHour = newsHour.replaceRange(5, newsHour.length, "");
+    newsDate = splittedDate[0];
+    Map<String, String> dateAndHour = {
+      "date": newsDate,
+      "hour": newsHour,
+    };
+    return dateAndHour;
   }
 }

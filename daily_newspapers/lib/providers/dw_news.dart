@@ -59,6 +59,8 @@ class DWNews extends RssResponse {
           description: extractDescription(item),
           imageUrl: extractImageUrl(item),
           newsUrl: extractNewsUrl(item),
+          newsDate: extractNewsDate(item)['date'],
+          newsHour: extractNewsDate(item)['hour'],
         ));
       },
     ).toList();
@@ -118,7 +120,6 @@ class DWNews extends RssResponse {
           .toString()
           .replaceFirst('(<link>', '')
           .replaceFirst('</link>)', '');
-      // print(newsUrlText);
       return newsUrlText;
     } catch (e) {
       return "broken";
@@ -130,5 +131,25 @@ class DWNews extends RssResponse {
     news.removeWhere((element) => element.description == "broken");
     news.removeWhere((element) => element.imageUrl == "broken");
     news.removeWhere((element) => element.newsUrl == "broken");
+  }
+
+  @override
+  Map<String, String> extractNewsDate(XmlElement item) {
+    final pubDateTag =
+        item.children.where((child) => child.toString().contains("<dc:date>"));
+    var newsDate = pubDateTag.toString();
+    final startPatternIndex =
+        newsDate.indexOf("(<dc:date>") + "(<dc:date>".length;
+    final endPatternIndex = newsDate.indexOf("Z</dc:date>)");
+    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+    final splittedNewDate = newsDate.split("T");
+    var newsHour = splittedNewDate[1];
+    newsDate = splittedNewDate[0];
+    Map<String, String> dateAndHour = {
+      "date": newsDate,
+      "hour": newsHour,
+    };
+    return dateAndHour;
   }
 }

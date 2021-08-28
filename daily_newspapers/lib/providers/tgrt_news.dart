@@ -59,6 +59,8 @@ class TGRTNews extends RssResponse {
           description: extractDescription(item),
           imageUrl: extractImageUrl(item),
           newsUrl: extractNewsUrl(item),
+          newsDate: extractNewsDate(item)['date'],
+          newsHour: extractNewsDate(item)['hour'],
         ));
       },
     ).toList();
@@ -137,5 +139,26 @@ class TGRTNews extends RssResponse {
     news.removeWhere((element) => element.description == "broken");
     news.removeWhere((element) => element.imageUrl == "broken");
     news.removeWhere((element) => element.newsUrl == "broken");
+  }
+
+  @override
+  Map<String, String> extractNewsDate(XmlElement item) {
+    final pubDateTag =
+        item.children.where((child) => child.toString().contains("pubDate"));
+    var newsDate = pubDateTag.toString();
+    final startPatternIndex =
+        newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
+    final endPatternIndex = newsDate.indexOf("+0300</pubDate>)");
+    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+    newsDate = newsDate.split(",")[1];
+    final splittingPointIndex = newsDate.indexOf("202") + 4;
+    var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
+    newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
+    Map<String, String> dateAndHour = {
+      "date": newsDate,
+      "hour": newsHour,
+    };
+    return dateAndHour;
   }
 }

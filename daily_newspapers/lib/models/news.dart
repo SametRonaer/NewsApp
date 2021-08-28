@@ -6,6 +6,8 @@ class NewsModel {
   String description;
   String imageUrl;
   String newsUrl;
+  String newsDate;
+  String newsHour;
 
   NewsModel({
     @required this.id,
@@ -13,5 +15,7 @@ class NewsModel {
     @required this.description,
     @required this.imageUrl,
     @required this.newsUrl,
+    @required this.newsDate,
+    @required this.newsHour,
   });
 }

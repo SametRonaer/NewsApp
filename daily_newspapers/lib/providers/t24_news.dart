@@ -110,4 +110,9 @@ class T24News extends RssResponse {
         .replaceFirst('</link>)', '');
     return newsUrlText;
   }
+
+  @override
+  Map<String, String> extractNewsDate(XmlElement item) {
+    return null;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:daily_newspapers/helpers/share_news.dart';
 import 'package:daily_newspapers/models/news.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../helpers/detect_news_source.dart';
 
 class WebScreen extends StatefulWidget {
   static String routeName = "/loadPage";
@@ -16,9 +17,17 @@ class WebScreen extends StatefulWidget {
 class _WebScreenState extends State<WebScreen> {
   @override
   Widget build(BuildContext context) {
+    final String newsSource = DetectNewsSource.getNewsSource(widget._news);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Haber")),
+        title: Center(
+            child: Row(
+          children: [
+            _getNewspaperLogo(DetectNewsSource.newsPaperLogoUrl),
+            SizedBox(width: 70),
+            Expanded(child: Text(newsSource)),
+          ],
+        )),
         actions: [
           IconButton(icon: Icon(Icons.share), onPressed: _shareNews),
           SaveNews(widget._news),
@@ -27,6 +36,20 @@ class _WebScreenState extends State<WebScreen> {
       body: WebView(
         javascriptMode: JavascriptMode.disabled,
         initialUrl: widget._news.newsUrl,
+      ),
+    );
+  }
+
+  Widget _getNewspaperLogo(String logoUrl) {
+    return Container(
+      width: 50,
+      height: 50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: Image.network(
+          logoUrl,
+          fit: BoxFit.scaleDown,
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:daily_newspapers/helpers/detect_news_source.dart';
 import 'package:daily_newspapers/models/news.dart';
 
 import '../screens/web_screen.dart';
@@ -5,11 +6,12 @@ import 'package:flutter/material.dart';
 
 class FeedListTile extends StatelessWidget {
   final NewsModel news;
-
+  String _newsSource;
   FeedListTile(this.news);
 
   @override
   Widget build(BuildContext context) {
+    _newsSource = DetectNewsSource.getNewsSource(news);
     return InkWell(
       splashColor: Colors.blueAccent,
       onTap: () {
@@ -33,10 +35,19 @@ class FeedListTile extends StatelessWidget {
               children: [
                 Expanded(
                     child: _loadNewsDescription(context, news.description)),
-                Container(
-                  width: 100,
-                  height: 100,
-                  child: _loadNewsImage(news.imageUrl),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      child: _loadNewsImage(news.imageUrl),
+                    ),
+                    Text(
+                      _newsSource,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
                 )
               ],
             ),

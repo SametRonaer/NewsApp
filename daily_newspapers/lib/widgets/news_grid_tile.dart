@@ -1,3 +1,4 @@
+import 'package:daily_newspapers/helpers/detect_news_source.dart';
 import 'package:daily_newspapers/models/news.dart';
 import 'package:daily_newspapers/screens/web_screen.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class NewsGridTile extends StatelessWidget {
   Widget _getNewsCell(NewsModel news, BuildContext context, CellType cellType) {
     double imageHeight = cellType == CellType.large ? 180 : 135;
     newsOrder += 1;
-    final newsSource = _getNewsSource(news);
+    final newsSource = DetectNewsSource.getNewsSource(news);
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -174,29 +175,5 @@ class NewsGridTile extends StatelessWidget {
         ),
       ),
     ));
-  }
-
-  String _getNewsSource(NewsModel news) {
-    if (news.newsUrl.contains("cnnturk")) {
-      return "CnnTürk";
-    } else if (news.newsUrl.contains("ntv")) {
-      return "Ntv";
-    } else if (news.newsUrl.contains("sabah")) {
-      return "Sabah";
-    } else if (news.newsUrl.contains("takvim")) {
-      return "Takvim";
-    } else if (news.newsUrl.contains("haberturk")) {
-      return "Habertürk";
-    } else if (news.newsUrl.contains("hurriyet")) {
-      return "Hürriyet";
-    } else if (news.newsUrl.contains("star")) {
-      return "Star";
-    } else if (news.newsUrl.contains("tgrt")) {
-      return "TGRT";
-    } else if (news.newsUrl.contains("dw")) {
-      return "DW";
-    } else {
-      return "";
-    }
   }
 }

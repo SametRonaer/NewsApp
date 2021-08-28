@@ -140,4 +140,9 @@ class MilliyetNews extends RssResponse {
     news.removeWhere((element) => element.imageUrl == "broken");
     news.removeWhere((element) => element.newsUrl == "broken");
   }
+
+  @override
+  Map<String, String> extractNewsDate(XmlElement item) {
+    return null;
+  }
 }
