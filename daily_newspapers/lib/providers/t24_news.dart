@@ -64,6 +64,7 @@ class T24News extends RssResponse {
         ));
       },
     ).toList();
+    checkBrokenNews();
   }
 
   @override
@@ -115,4 +116,7 @@ class T24News extends RssResponse {
   Map<String, String> extractNewsDate(XmlElement item) {
     return null;
   }
+
+  @override
+  void checkBrokenNews() {}
 }

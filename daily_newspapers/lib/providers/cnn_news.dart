@@ -64,75 +64,113 @@ class CnnNews extends RssResponse {
         ));
       },
     ).toList();
+    checkBrokenNews();
   }
 
   @override
   String extractTitle(XmlElement item) {
-    final titleTag =
-        item.children.where((child) => child.toString().contains("title"));
-    final titleText = titleTag
-        .toString()
-        .replaceFirst("(<title><![CDATA[", "")
-        .replaceFirst("]]></title>)", "")
-        .replaceAll("&quot;", '"')
-        .replaceAll("&#39;", "'");
+    try{
+      final titleTag =
+      item.children.where((child) => child.toString().contains("title"));
+      final titleText = titleTag
+          .toString()
+          .replaceFirst("(<title><![CDATA[", "")
+          .replaceFirst("]]></title>)", "")
+          .replaceAll("&quot;", '"')
+          .replaceAll("&#39;", "'");
 
-    return titleText;
+      return titleText;
+    }catch(e){
+      return "broken";
+    }
+
   }
 
   @override
   String extractDescription(XmlElement item) {
-    final descriptionTag = item.children
-        .where((child) => child.toString().contains("description"));
-    final descriptionText = descriptionTag
-        .toString()
-        .replaceFirst("(<description><![CDATA[", "")
-        .replaceFirst("]]></description>)", "")
-        .replaceAll("&quot;", '"')
-        .replaceAll("&#39;", "'");
-    return descriptionText;
+    try{
+      final descriptionTag = item.children
+          .where((child) => child.toString().contains("description"));
+      final descriptionText = descriptionTag
+          .toString()
+          .replaceFirst("(<description><![CDATA[", "")
+          .replaceFirst("]]></description>)", "")
+          .replaceAll("&quot;", '"')
+          .replaceAll("&#39;", "'");
+      return descriptionText;
+    }catch(e){
+      return "broken";
+    }
+
   }
 
   @override
   String extractImageUrl(XmlElement item) {
-    final imageTag =
-        item.children.where((child) => child.toString().contains("image"));
-    final imageUrlText = imageTag
-        .toString()
-        .replaceFirst("(<image>", "")
-        .replaceFirst("</image>)", "");
-    return imageUrlText;
+    try{
+      final imageTag =
+      item.children.where((child) => child.toString().contains("image"));
+      final imageUrlText = imageTag
+          .toString()
+          .replaceFirst("(<image>", "")
+          .replaceFirst("</image>)", "");
+      return imageUrlText;
+    }catch(e){
+      return "broken";
+    }
+
   }
 
   @override
   String extractNewsUrl(XmlElement item) {
-    final linkTag =
-        item.children.where((child) => child.toString().contains("atom:link"));
-    final newsUrlText = linkTag
-        .toString()
-        .replaceFirst('(<atom:link href="', '')
-        .replaceFirst('"/>)', '');
-    return newsUrlText;
+    try{
+      final linkTag =
+      item.children.where((child) => child.toString().contains("atom:link"));
+      final newsUrlText = linkTag
+          .toString()
+          .replaceFirst('(<atom:link href="', '')
+          .replaceFirst('"/>)', '');
+      return newsUrlText;
+    }catch(e){
+      return "broken";
+    }
+
+  }
+  @override
+  void checkBrokenNews() {
+    news.removeWhere((element) => element.title == "broken");
+    news.removeWhere((element) => element.description == "broken");
+    news.removeWhere((element) => element.imageUrl == "broken");
+    news.removeWhere((element) => element.newsUrl == "broken");
+    news.removeWhere((element) => element.newsDate == "broken");
+    news.removeWhere((element) => element.newsHour == "broken");
   }
 
   @override
   Map<String, String> extractNewsDate(XmlElement item) {
-    final pubDateTag =
-        item.children.where((child) => child.toString().contains("pubDate"));
-    var newsDate = pubDateTag.toString();
-    final startPatternIndex =
-        newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
-    final endPatternIndex = newsDate.indexOf("GMT</pubDate>)");
-    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
-    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
-    newsDate = newsDate.split(",")[1];
-    final splittingPointIndex = newsDate.indexOf("202") + 4;
-    var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
-    newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
-    Map<String, String> dateAndHour = {
-      "date": newsDate,
-      "hour": newsHour,
-    };
-    return dateAndHour;
+    try{
+      final pubDateTag =
+      item.children.where((child) => child.toString().contains("pubDate"));
+      var newsDate = pubDateTag.toString();
+      final startPatternIndex =
+          newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
+      final endPatternIndex = newsDate.indexOf("GMT</pubDate>)");
+      newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+      newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+      newsDate = newsDate.split(",")[1];
+      final splittingPointIndex = newsDate.indexOf("202") + 4;
+      var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
+      if (newsHour.length > 5) {
+        newsHour = newsHour.replaceRange(6, newsHour.length, "");
+      }
+      newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
+      Map<String, String> dateAndHour = {
+        "date": newsDate,
+        "hour": newsHour,
+      };
+      return dateAndHour;
+    }catch(e){
+      return {"date": "broken", "hour": "broken"};
+    }
+
   }
 }

@@ -15,4 +15,5 @@ abstract class RssResponse extends ChangeNotifier {
   String extractImageUrl(XmlElement item);
   String extractNewsUrl(XmlElement item);
   Map<String, String> extractNewsDate(XmlElement item);
+  void checkBrokenNews();
 }

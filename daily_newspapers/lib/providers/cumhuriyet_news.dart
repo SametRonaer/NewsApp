@@ -65,10 +65,14 @@ class CumhuriyetNews extends RssResponse {
         ));
       },
     ).toList();
+    checkBrokenNews();
   }
 
   @override
   String extractTitle(XmlElement item) {
+    try {} catch (e) {
+      return "broken";
+    }
     final titleTag =
         item.children.where((child) => child.toString().contains("title"));
     final titleText = titleTag
@@ -82,6 +86,9 @@ class CumhuriyetNews extends RssResponse {
 
   @override
   String extractDescription(XmlElement item) {
+    try {} catch (e) {
+      return "broken";
+    }
     final descriptionTag = item.children
         .where((child) => child.toString().contains("description"));
     final descriptionText = descriptionTag
@@ -95,6 +102,9 @@ class CumhuriyetNews extends RssResponse {
 
   @override
   String extractImageUrl(XmlElement item) {
+    try {} catch (e) {
+      return "broken";
+    }
     final imageTag =
         item.children.where((child) => child.toString().contains("thumbnail"));
     final imageUrlText = imageTag
@@ -106,6 +116,9 @@ class CumhuriyetNews extends RssResponse {
 
   @override
   String extractNewsUrl(XmlElement item) {
+    try {} catch (e) {
+      return "broken";
+    }
     final linkTag =
         item.children.where((child) => child.toString().contains("<link>"));
     var newsUrlText = linkTag.toString();
@@ -117,22 +130,38 @@ class CumhuriyetNews extends RssResponse {
 
   @override
   Map<String, String> extractNewsDate(XmlElement item) {
-    final pubDateTag =
-        item.children.where((child) => child.toString().contains("pubDate"));
-    var newsDate = pubDateTag.toString();
-    final startPatternIndex =
-        newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
-    final endPatternIndex = newsDate.indexOf("GMT</pubDate>)");
-    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
-    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
-    newsDate = newsDate.split(",")[1];
-    final splittingPointIndex = newsDate.indexOf("202") + 4;
-    var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
-    newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
-    Map<String, String> dateAndHour = {
-      "date": newsDate,
-      "hour": newsHour,
-    };
-    return dateAndHour;
+    try {
+      final pubDateTag =
+          item.children.where((child) => child.toString().contains("pubDate"));
+      var newsDate = pubDateTag.toString();
+      final startPatternIndex =
+          newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
+      final endPatternIndex = newsDate.indexOf("GMT</pubDate>)");
+      newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+      newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+      newsDate = newsDate.split(",")[1];
+      final splittingPointIndex = newsDate.indexOf("202") + 4;
+      var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
+      newsDate =
+          newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
+      if (newsHour.length > 5) {
+        newsHour = newsHour.replaceRange(6, newsHour.length, "");
+      }
+      Map<String, String> dateAndHour = {
+        "date": newsDate,
+        "hour": newsHour,
+      };
+      return dateAndHour;
+    } catch (e) {
+      return {"date": "broken", "hour": "broken"};
+    }
+  }
+
+  @override
+  void checkBrokenNews() {
+    news.removeWhere((element) => element.title == "broken");
+    news.removeWhere((element) => element.description == "broken");
+    news.removeWhere((element) => element.imageUrl == "broken");
+    news.removeWhere((element) => element.newsUrl == "broken");
   }
 }

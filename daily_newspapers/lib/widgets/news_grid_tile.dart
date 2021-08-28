@@ -132,12 +132,35 @@ class NewsGridTile extends StatelessWidget {
                     height: imageHeight,
                     width: double.infinity,
                     alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
-                      child: Text(
-                        newsSource,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                    child: Container(
+                      color: Colors.black38,
+                      width: double.infinity,
+                      height: 30,
+                      alignment: Alignment.bottomLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            child: Text(
+                              newsSource,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                            child: Text(
+                              news.newsDate,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

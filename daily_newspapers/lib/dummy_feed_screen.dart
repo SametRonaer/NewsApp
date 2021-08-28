@@ -4,6 +4,7 @@ import 'package:daily_newspapers/providers/dunya_news.dart';
 import 'package:daily_newspapers/providers/dw_news.dart';
 import 'package:daily_newspapers/providers/hurriyet_news.dart';
 import 'package:daily_newspapers/providers/milliyet_news.dart';
+import 'package:daily_newspapers/providers/ntv_news.dart';
 import 'package:daily_newspapers/providers/sabah_news.dart';
 import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/t24_news.dart';
@@ -18,8 +19,7 @@ class DummyFeedScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("onpressed");
-          Provider.of<TGRTNews>(context, listen: false).getWorldNews();
+          Provider.of<NtvNews>(context, listen: false).getWorldNews();
         },
       ),
     );

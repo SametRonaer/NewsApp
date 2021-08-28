@@ -11,14 +11,19 @@ class DWNews extends RssResponse {
   final _sportNewsUrl = "https://rss.dw.com/xml/rss-tur-eu_spo";
   final _economyNewsUrl = "https://rss.dw.com/xml/rss-tur-eco";
   final _worldNewsUrl = "https://rss.dw.com/xml/rss-tur-pol-tur";
+
+  bool isFeedScreen = true; // since date format different in other categories
+
   @override
   Future<void> getMainNews() async {
+    isFeedScreen = true;
     await sendRequest(_mainNewsUrl);
     notifyListeners();
   }
 
   @override
   Future<List<NewsModel>> getEconomyNews() async {
+    isFeedScreen = false;
     await sendRequest(_economyNewsUrl);
     notifyListeners();
     return news;
@@ -26,6 +31,7 @@ class DWNews extends RssResponse {
 
   @override
   Future<List<NewsModel>> getWorldNews() async {
+    isFeedScreen = false;
     await sendRequest(_worldNewsUrl);
     notifyListeners();
     return news;
@@ -33,6 +39,7 @@ class DWNews extends RssResponse {
 
   @override
   Future<List<NewsModel>> getSportNews() async {
+    isFeedScreen = false;
     await sendRequest(_sportNewsUrl);
     notifyListeners();
     return news;
@@ -46,6 +53,7 @@ class DWNews extends RssResponse {
     var document = XmlDocument.parse(decodedResponse);
     var items = document.findAllElements("item").toList();
     putNews(items);
+    print(items);
   }
 
   @override
@@ -64,7 +72,7 @@ class DWNews extends RssResponse {
         ));
       },
     ).toList();
-    _checkBrokenNews();
+    checkBrokenNews();
   }
 
   @override
@@ -126,30 +134,40 @@ class DWNews extends RssResponse {
     }
   }
 
-  void _checkBrokenNews() {
+  @override
+  void checkBrokenNews() {
     news.removeWhere((element) => element.title == "broken");
     news.removeWhere((element) => element.description == "broken");
     news.removeWhere((element) => element.imageUrl == "broken");
     news.removeWhere((element) => element.newsUrl == "broken");
+    news.removeWhere((element) => element.newsDate == "broken");
+    news.removeWhere((element) => element.newsHour == "broken");
   }
 
   @override
   Map<String, String> extractNewsDate(XmlElement item) {
-    final pubDateTag =
-        item.children.where((child) => child.toString().contains("<dc:date>"));
-    var newsDate = pubDateTag.toString();
-    final startPatternIndex =
-        newsDate.indexOf("(<dc:date>") + "(<dc:date>".length;
-    final endPatternIndex = newsDate.indexOf("Z</dc:date>)");
-    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
-    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
-    final splittedNewDate = newsDate.split("T");
-    var newsHour = splittedNewDate[1];
-    newsDate = splittedNewDate[0];
-    Map<String, String> dateAndHour = {
-      "date": newsDate,
-      "hour": newsHour,
-    };
-    return dateAndHour;
+    try {
+      final pubDateTag = item.children
+          .where((child) => child.toString().contains("<dc:date>"));
+      var newsDate = pubDateTag.toString();
+      final startPatternIndex =
+          newsDate.indexOf("(<dc:date>") + "(<dc:date>".length;
+      final endPatternIndex = newsDate.indexOf("Z</dc:date>)");
+      newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+      newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+      final splittedNewsDate = newsDate.split("T");
+      var newsHour = splittedNewsDate[1];
+      if (newsHour.length > 5) {
+        newsHour = newsHour.replaceRange(6, newsHour.length, "");
+      }
+      newsDate = splittedNewsDate[0];
+      Map<String, String> dateAndHour = {
+        "date": newsDate,
+        "hour": newsHour,
+      };
+      return dateAndHour;
+    } catch (e) {
+      return {"date": "broken", "hour": "broken"};
+    }
   }
 }

@@ -39,12 +39,19 @@ class FeedListTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _loadNewsDescription(context, news.description),
-                    SizedBox(height: 10),
-                    Text(newsDate),
+                    SizedBox(height: 20),
+                    Text(
+                      newsHour,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                    ),
+                    Text(
+                      newsDate,
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                    ),
                   ],
                 )),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       width: 100,
@@ -53,9 +60,10 @@ class FeedListTile extends StatelessWidget {
                     ),
                     Text(
                       _newsSource,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).accentColor),
                     ),
-                    Text(newsHour),
                   ],
                 )
               ],

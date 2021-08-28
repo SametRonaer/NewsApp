@@ -64,7 +64,7 @@ class SabahNews extends RssResponse {
         ));
       },
     ).toList();
-    _checkBrokenNews();
+    checkBrokenNews();
   }
 
   @override
@@ -139,29 +139,39 @@ class SabahNews extends RssResponse {
 
   @override
   Map<String, String> extractNewsDate(XmlElement item) {
-    final pubDateTag =
-        item.children.where((child) => child.toString().contains("pubDate"));
-    var newsDate = pubDateTag.toString();
-    final startPatternIndex =
-        newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
-    final endPatternIndex = newsDate.indexOf("+0300</pubDate>)");
-    newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
-    newsDate = newsDate.replaceRange(0, startPatternIndex, "");
-    newsDate = newsDate.split(",")[1];
-    final splittingPointIndex = newsDate.indexOf("202") + 4;
-    var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
-    newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
-    Map<String, String> dateAndHour = {
-      "date": newsDate,
-      "hour": newsHour,
-    };
-    return dateAndHour;
-  }
+    try{
+      final pubDateTag =
+      item.children.where((child) => child.toString().contains("pubDate"));
+      var newsDate = pubDateTag.toString();
+      final startPatternIndex =
+          newsDate.indexOf("(<pubDate>") + "(<pubDate>".length;
+      final endPatternIndex = newsDate.indexOf("+0300</pubDate>)");
+      newsDate = newsDate.replaceRange(endPatternIndex, newsDate.length, "");
+      newsDate = newsDate.replaceRange(0, startPatternIndex, "");
+      newsDate = newsDate.split(",")[1];
+      final splittingPointIndex = newsDate.indexOf("202") + 4;
+      var newsHour = newsDate.replaceRange(0, splittingPointIndex, "");
+      if (newsHour.length > 5) {
+        newsHour = newsHour.replaceRange(6, newsHour.length, "");
+      }
+      newsDate = newsDate.replaceRange(splittingPointIndex, newsDate.length, "");
+      Map<String, String> dateAndHour = {
+        "date": newsDate,
+        "hour": newsHour,
+      };
+      return dateAndHour;
+    }catch(e){
+      return {"date" : "broken", "hour" : "broken"};
+    }
 
-  void _checkBrokenNews() {
+  }
+  @override
+  void checkBrokenNews() {
     news.removeWhere((element) => element.title == "broken");
     news.removeWhere((element) => element.description == "broken");
     news.removeWhere((element) => element.imageUrl == "broken");
     news.removeWhere((element) => element.newsUrl == "broken");
+    news.removeWhere((element) => element.newsDate == "broken");
+    news.removeWhere((element) => element.newsHour == "broken");
   }
 }

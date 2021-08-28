@@ -63,7 +63,7 @@ class MilliyetNews extends RssResponse {
         ));
       },
     ).toList();
-    _checkBrokenNews();
+    checkBrokenNews();
   }
 
   @override
@@ -133,8 +133,8 @@ class MilliyetNews extends RssResponse {
       return "broken";
     }
   }
-
-  void _checkBrokenNews() {
+  @override
+  void checkBrokenNews() {
     news.removeWhere((element) => element.title == "broken");
     news.removeWhere((element) => element.description == "broken");
     news.removeWhere((element) => element.imageUrl == "broken");

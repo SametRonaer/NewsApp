@@ -72,9 +72,6 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
 
     if (category == Categories.Sport) {
       loadedNews =
-          await Provider.of<CnnNews>(context, listen: false).getSportNews();
-      _combineNews(loadedNews);
-      loadedNews +=
           await Provider.of<NtvNews>(context, listen: false).getSportNews();
       _combineNews(loadedNews);
       loadedNews += await Provider.of<HaberturkNews>(context, listen: false)
@@ -95,8 +92,11 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       loadedNews +=
           await Provider.of<TGRTNews>(context, listen: false).getSportNews();
       _combineNews(loadedNews);
+      // loadedNews +=
+      //     await Provider.of<DWNews>(context, listen: false).getSportNews();
+      // _combineNews(loadedNews);
       loadedNews +=
-          await Provider.of<DWNews>(context, listen: false).getSportNews();
+          await Provider.of<CnnNews>(context, listen: false).getSportNews();
       _combineNews(loadedNews);
     } else if (category == Categories.World) {
       loadedNews =
@@ -120,9 +120,9 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       loadedNews +=
           await Provider.of<TGRTNews>(context, listen: false).getWorldNews();
       _combineNews(loadedNews);
-      loadedNews +=
-          await Provider.of<DWNews>(context, listen: false).getWorldNews();
-      _combineNews(loadedNews);
+      // loadedNews +=
+      //     await Provider.of<DWNews>(context, listen: false).getWorldNews();
+      // _combineNews(loadedNews);
     } else if (category == Categories.Economy) {
       loadedNews =
           await Provider.of<CnnNews>(context, listen: false).getEconomyNews();
@@ -148,9 +148,9 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
       loadedNews +=
           await Provider.of<TGRTNews>(context, listen: false).getEconomyNews();
       _combineNews(loadedNews);
-      loadedNews +=
-          await Provider.of<DWNews>(context, listen: false).getEconomyNews();
-      _combineNews(loadedNews);
+      // loadedNews +=
+      //     await Provider.of<DWNews>(context, listen: false).getEconomyNews();
+      // _combineNews(loadedNews);
     }
     news.shuffle();
   }
