@@ -25,6 +25,8 @@ class _SavedNewsScreenState extends State<SavedNewsScreen> {
         description: element["description"],
         imageUrl: element["image"],
         newsUrl: element["link"],
+        newsHour: element["hour"],
+        newsDate: element["date"],
       );
       _savedNewsList.add(FeedListTile(news));
     });

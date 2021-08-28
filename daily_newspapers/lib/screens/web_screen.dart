@@ -95,7 +95,9 @@ class _SaveNewsState extends State<SaveNews> {
           "title": widget._news.title,
           "description": widget._news.description,
           "image": widget._news.imageUrl,
-          "link": widget._news.newsUrl
+          "link": widget._news.newsUrl,
+          "date": widget._news.newsDate,
+          "hour": widget._news.newsHour,
         },
       );
     } else {

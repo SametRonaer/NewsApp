@@ -13,7 +13,7 @@ class DBHelper {
     final selectedNewsPapersTableNameTable =
         "CREATE TABLE $selectedNewsPapersTableName(title TEXT , imageUrl TEXT PRIMARY KEY)";
     final savedNewsPapersTable =
-        "CREATE TABLE $savedNewsTableName(id TEXT PRIMARY KEY, title TEXT, description TEXT, image TEXT, link TEXT)";
+        "CREATE TABLE $savedNewsTableName(id TEXT PRIMARY KEY, title TEXT, description TEXT, image TEXT, link TEXT, date TEXT, hour TEXT)";
     return await sql.openDatabase(
       path.join(dbPath, "news.db"),
       onCreate: (db, version) async {

@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 
 class FeedListTile extends StatelessWidget {
   final NewsModel news;
-  String _newsSource;
   FeedListTile(this.news);
 
   @override
   Widget build(BuildContext context) {
-    _newsSource = DetectNewsSource.getNewsSource(news);
+    String _newsSource = DetectNewsSource.getNewsSource(news);
+    String newsDate = news.newsDate;
+    String newsHour = news.newsHour;
     return InkWell(
       splashColor: Colors.blueAccent,
       onTap: () {
@@ -34,7 +35,14 @@ class FeedListTile extends StatelessWidget {
             subtitle: Row(
               children: [
                 Expanded(
-                    child: _loadNewsDescription(context, news.description)),
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _loadNewsDescription(context, news.description),
+                    SizedBox(height: 10),
+                    Text(newsDate),
+                  ],
+                )),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -47,6 +55,7 @@ class FeedListTile extends StatelessWidget {
                       _newsSource,
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
+                    Text(newsHour),
                   ],
                 )
               ],
