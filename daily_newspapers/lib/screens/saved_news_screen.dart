@@ -3,6 +3,7 @@ import 'package:daily_newspapers/models/news.dart';
 import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/feed_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../helpers/share_news.dart';
 
 class SavedNewsScreen extends StatefulWidget {
@@ -43,7 +44,10 @@ class _SavedNewsScreenState extends State<SavedNewsScreen> {
         future: _getSavedNews(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: SpinKitCubeGrid(
+          color: Theme.of(context).primaryColor,
+          duration: Duration(milliseconds: 500),
+        ),)
             : ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Dismissible(

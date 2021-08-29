@@ -9,6 +9,7 @@ import 'package:daily_newspapers/providers/star_news.dart';
 import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
 import 'package:daily_newspapers/providers/tgrt_news.dart';
+import 'package:daily_newspapers/screens/communication_screen.dart';
 import 'package:daily_newspapers/screens/launch_screen.dart';
 import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/newspaper_selection_screen.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
             SavedNewsScreen.routeName: (ctx) => SavedNewsScreen(),
             FeedScreen.routeName: (ctx) => FeedScreen(),
             NewsOfCategoryScreen.routeName: (ctx) => NewsOfCategoryScreen(),
+            CommunicationScreen.routeName: (ctx) => CommunicationScreen(),
             NewspaperSelectionScreen.routeName: (ctx) =>
                 NewspaperSelectionScreen(),
           },

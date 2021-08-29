@@ -3,6 +3,7 @@ import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/screens/feed_screen.dart';
 import 'package:daily_newspapers/widgets/newspaper_selection_grid_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NewspaperSelectionScreen extends StatelessWidget {
   static final routeName = "/newsPaperSelectionScreen";
@@ -27,7 +28,12 @@ class NewspaperSelectionScreen extends StatelessWidget {
         future: _getSavedNewsPapers(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: SpinKitCubeGrid(
+                  color: Theme.of(context).primaryColor,
+                  duration: Duration(milliseconds: 500),
+                ),
+              )
             : Container(
                 color: Theme.of(context).cardColor,
                 child: GridView.builder(

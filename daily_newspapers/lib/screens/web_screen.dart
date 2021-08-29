@@ -2,6 +2,7 @@ import 'package:daily_newspapers/helpers/db_helper.dart';
 import 'package:daily_newspapers/helpers/share_news.dart';
 import 'package:daily_newspapers/models/news.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../helpers/detect_news_source.dart';
 
@@ -77,7 +78,12 @@ class _SaveNewsState extends State<SaveNews> {
       future: searchNewsInDatabase(),
       builder: (ctx, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: SpinKitCubeGrid(
+                    color: Theme.of(context).primaryColor,
+                    duration: Duration(milliseconds: 500),
+                  ),
+                )
               : IconButton(
                   icon: Icon(
                       _isSaved ? Icons.bookmark : Icons.bookmark_outline_sharp),

@@ -11,6 +11,7 @@ import 'package:daily_newspapers/providers/tgrt_news.dart';
 import 'package:daily_newspapers/widgets/app_drawer.dart';
 import 'package:daily_newspapers/widgets/news_grid_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 enum Categories {
@@ -57,10 +58,11 @@ class _NewsOfCategoryScreenState extends State<NewsOfCategoryScreen> {
         builder: (ctx, snapshot) =>
             snapshot.connectionState == ConnectionState.waiting
                 ? Center(
-                    child: CircularProgressIndicator(
-                    color: Colors.grey.shade700,
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ))
+                    child: SpinKitSpinningLines(
+                      color: Theme.of(context).primaryColor,
+                      duration: Duration(milliseconds: 1500),
+                    ),
+                  )
                 : NewsGridTile(news),
       ),
     );

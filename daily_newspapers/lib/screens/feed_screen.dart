@@ -12,6 +12,7 @@ import 'package:daily_newspapers/providers/t24_news.dart';
 import 'package:daily_newspapers/providers/takvim_news.dart';
 import 'package:daily_newspapers/providers/tgrt_news.dart';
 import 'package:daily_newspapers/widgets/empty_newspapers_field.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../widgets/app_drawer.dart';
 import '../providers/bbc_news.dart';
@@ -62,9 +63,9 @@ class _FeedScreenState extends State<FeedScreen> {
                         width: 100,
                         alignment: Alignment.topCenter,
                         child: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            color: Colors.grey.shade700,
+                          child: SpinKitCubeGrid(
+                            color: Theme.of(context).primaryColor,
+                            duration: Duration(milliseconds: 500),
                           ),
                         ),
                       );
@@ -293,7 +294,10 @@ class _FeedScreenState extends State<FeedScreen> {
         );
       });
     } else {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: SpinKitCubeGrid(
+        color: Theme.of(context).primaryColor,
+        duration: Duration(milliseconds: 500),
+      ),);
     }
   }
 }

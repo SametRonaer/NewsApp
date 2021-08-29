@@ -1,4 +1,5 @@
 import 'package:daily_newspapers/constants/theme_mode.dart';
+import 'package:daily_newspapers/screens/communication_screen.dart';
 import 'package:daily_newspapers/screens/feed_screen.dart';
 import 'package:daily_newspapers/screens/news_of_category_screen.dart';
 import 'package:daily_newspapers/screens/saved_news_screen.dart';
@@ -68,6 +69,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   context,
                   isDarkMode ? Icons.light_mode : Icons.dark_mode,
                   isDarkMode ? "Gündüz Modu" : "Gece Modu"),
+              _getDrawerButton(context, Icons.mail_outline, "İris Hakkında",
+                  CommunicationScreen.routeName),
             ],
           ),
         ),
